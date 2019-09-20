@@ -25,6 +25,12 @@ minikube start
 kubectl create -f kube-state-metrics
 ```
 
+## Configure cloud environment
+```
+kubectl create -f metricbeat/metricbeat-setup.yml
+kubectl create -f filebeat/filebeat-setup.yml
+```
+
 ## NGINX
 ### Deployment
 ```
