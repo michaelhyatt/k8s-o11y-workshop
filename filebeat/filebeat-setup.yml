@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: filebeat-config
+  name: filebeat-init-config
   namespace: kube-system
   labels:
     k8s-app: filebeat
@@ -56,6 +56,6 @@ spec:
       - name: config
         configMap:
           defaultMode: 0600
-          name: filebeat-config
+          name: filebeat-init-config
       restartPolicy: Never
   backoffLimit: 0
