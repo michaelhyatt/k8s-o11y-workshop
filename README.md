@@ -32,24 +32,24 @@ kubectl create -f metricbeat/metricbeat-setup.yml
 kubectl create -f filebeat/filebeat-setup.yml
 ```
 
-## 5. NGINX deployment
-```bash
-kubectl create -f nginx/nginx.yml
-```
-
-## 6. Busybox deployment
-```bash
-kubectl create -f busybox/busybox.yml
-```
-
-## 7. Filebeat deployment
+## 5. Filebeat deployment
 ```bash
 kubectl create -f filebeat/filebeat.yml
 ```
 
-## 8. Metricbeat deployment
+## 6. Metricbeat deployment
 ```bash
 kubectl create -f metricbeat/metricbeat.yml
+```
+
+## 7. NGINX deployment
+```bash
+kubectl create -f nginx/nginx.yml
+```
+
+## 8. Busybox deployment
+```bash
+kubectl create -f busybox/busybox.yml
 ```
 
 ### 9. Invoke busybox curl
