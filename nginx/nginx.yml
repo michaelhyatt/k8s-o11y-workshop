@@ -26,7 +26,44 @@ spec:
         image: nginx:1.17.3
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: defaultconf
+          mountPath: /etc/nginx/conf.d/default.conf
+          readOnly: true
+          subPath: default.conf
+      volumes:
+      - name: defaultconf
+        configMap:
+          name: nginx-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  labels:
+    k8s-app: nginx
+data:
+  default.conf: |
+    server {
+        listen       80;
+        server_name  localhost;
 
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+        location /server-status {
+         	stub_status;
+        	allow all; # A bit too wide
+         	# deny all;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
 ---
 apiVersion: v1
 kind: Service
