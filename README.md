@@ -1,5 +1,30 @@
 # Elastic k8s workshop
 
+## Deploy secrets
+Provides connectivity to Elastic cloud
+```
+# First, copy the template into secret.yml
+cp secret.yml.template secret.yml
+
+# Then, create base64 encoded secret values, as following for
+# cloud-id, cloud-auth, apm-url, apm-token and update the values in secret.yml
+echo -n 'my-app' | base64
+
+# Lastly, create secrets in K8s:
+kubectl create -f secret.yml
+```
+
+## Start minikube
+```
+minikube start
+```
+
+## Kube-state-metrics
+### Deployment
+```
+kubectl create -f kube-state-metrics
+```
+
 ## NGINX
 ### Deployment
 ```
@@ -21,6 +46,11 @@ kubectl create busybox/busybox.yml
 kubectl exec busybox -- curl nginx-service
 ```
 
+### Delete
+```
+kubectl delete pods -f busybox/busybox.yml
+```
+
 ## Filebeat
 
 ### Deployment
@@ -32,3 +62,14 @@ kubectl create -f filebeat/filebeat.yml
 ```
 kubectl delete -f filebeat/filebeat.yml
 ```
+
+## Metricbeat
+
+### Deployment
+```
+kubectl create -f metricbeat/metricbeat.yml
+```
+
+### Remove
+```
+kubectl delete -f metricbeat/metricbeat.yml
