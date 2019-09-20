@@ -1,0 +1,66 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metricbeat-config
+  namespace: kube-system
+  labels:
+    k8s-app: metricbeat
+data:
+  metricbeat.yml: |-
+    metricbeat.modules:
+      - module: nginx
+      - module: kubernetes
+      - module: docker
+      - module: system
+      
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: metricbeat-init
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: metricbeat-init
+        image: docker.elastic.co/beats/metricbeat:7.3.2
+        args: [
+          "-c", "/etc/metricbeat.yml",
+          "-e",
+          "setup"
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-id
+        - name: ELASTIC_CLOUD_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-auth
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: config
+          mountPath: /etc/metricbeat.yml
+          readOnly: true
+          subPath: metricbeat.yml
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: metricbeat-config
+      restartPolicy: Never
+  backoffLimit: 0
