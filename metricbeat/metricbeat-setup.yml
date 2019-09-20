@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: metricbeat-config
+  name: metricbeat-init-config
   namespace: kube-system
   labels:
-    k8s-app: metricbeat
+    k8s-app: metricbeat-init
 data:
   metricbeat.yml: |-
     metricbeat.modules:
@@ -13,7 +13,7 @@ data:
       - module: kubernetes
       - module: docker
       - module: system
-      
+
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
 ---
@@ -61,6 +61,6 @@ spec:
       - name: config
         configMap:
           defaultMode: 0600
-          name: metricbeat-config
+          name: metricbeat-init-config
       restartPolicy: Never
   backoffLimit: 0

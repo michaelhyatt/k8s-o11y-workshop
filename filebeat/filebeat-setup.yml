@@ -5,7 +5,7 @@ metadata:
   name: filebeat-init-config
   namespace: kube-system
   labels:
-    k8s-app: filebeat
+    k8s-app: filebeat-init
 data:
   filebeat.yml: |-
     cloud.id: ${ELASTIC_CLOUD_ID}
