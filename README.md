@@ -49,7 +49,11 @@ kubectl create -f busybox/busybox.yml
 
 ### Invoke busybox curl
 ```
+# Main service
 kubectl exec busybox -- curl nginx-service
+
+# server-status end point
+kubectl exec busybox -- curl nginx-service/server-status
 ```
 
 ### Delete
