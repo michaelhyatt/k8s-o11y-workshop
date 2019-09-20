@@ -44,7 +44,7 @@ kubectl delete pods -f nginx/nginx.yml
 ## Busybox
 ###Deployment
 ```
-kubectl create busybox/busybox.yml
+kubectl create -f busybox/busybox.yml
 ```
 
 ### Invoke busybox curl
