@@ -7,7 +7,7 @@ kubectl create -f filebeat/filebeat-setup.yml
 
 # Wait for metricbeat and filebeat init
 kubectl wait --for=condition=complete job/filebeat-init --namespace=kube-system --timeout=30m
-kubectl wait --for=condition=complete job/metricbeat-init --namespace=kube-system --timeout==30m
+kubectl wait --for=condition=complete job/metricbeat-init --namespace=kube-system --timeout=30m
 
 kubectl create -f filebeat/filebeat.yml
 kubectl create -f metricbeat/metricbeat.yml
