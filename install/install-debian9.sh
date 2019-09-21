@@ -20,10 +20,10 @@ sudo apt-cache policy docker-ce
 sudo apt-get -y install docker-ce
 sudo systemctl start docker
 
-sudo gpasswd -a $USER docker
-newgrp - docker
-
 sudo minikube start --kubernetes-version=1.16.0 --vm-driver=none
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+sudo gpasswd -a $USER docker
+newgrp - docker
