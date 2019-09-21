@@ -1,4 +1,4 @@
-#!/bin/sh +xvf
+#!/bin/sh -xvf
 
 kubectl delete -f secret.yml
 kubectl delete -f kube-state-metrics

@@ -1,4 +1,4 @@
-#!/bin/sh +xvf
+#!/bin/sh -xvf
 
 kubectl create -f secret.yml
 kubectl create -f kube-state-metrics
