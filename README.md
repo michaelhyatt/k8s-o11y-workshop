@@ -11,6 +11,8 @@ git clone https://github.com/michaelhyatt/k8s-o11y-workshop.git
 cd k8s-o11y-workshop
 
 ./install/install-debian9.sh
+cd ~/k8-o11y-workshop
+
 ```
 
 ## 1. Start minikube on local machine (not Debian)
