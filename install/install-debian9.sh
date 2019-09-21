@@ -27,3 +27,5 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 sudo gpasswd -a $USER docker
 newgrp - docker
+
+cd ~/k8-o11y-workshop
