@@ -76,3 +76,23 @@ kubectl exec busybox -- curl nginx-service
 # server-status end point
 kubectl exec busybox -- curl nginx-service/server-status
 ```
+
+### 10. Deploy MySql DB
+```bash
+kubectl create -f mysql/mysql.yml
+```
+
+### 11. Build  and deploy petclinic docker
+```bash
+# If running on minikube, point it to the minikube docker daemon
+eval $(minikube docker-env)
+
+docker build -t petclinic docker/petclinic
+
+kubectl create -f petclinic/petclinic.yml
+```
+
+### 11a. Open petclinic service in the browser through minikube
+```bash
+minikube service petclinic-service
+```
