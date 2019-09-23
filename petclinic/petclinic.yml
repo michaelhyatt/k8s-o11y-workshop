@@ -20,27 +20,27 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
-          args: [
-                "-Delastic.apm.server_urls=${ELASTIC_CLOUD_APM_SERVER_URLS}",
-                "-Delastic.apm.secret_token=${ELASTIC_CLOUD_APM_TOKEN}",
-                "-Delastic.apm.application_packages=org.springframework.samples",
-                "-Delastic.apm.service_name=spring-petclinic-monolith",
-                "-Dspring.profiles.active=mysql",
-                "-Dspring.datasource.initialize=always",
-                "-Dspring.datasource.url=jdbc:mysql://mysql-service/petclinic",
-                "-XX:+StartAttachListener"
-          ]
           env:
-          - name: ELASTIC_CLOUD_APM_SERVER_URLS
+          - name: ELASTIC_APM_SERVER_URLS
             valueFrom:
               secretKeyRef:
                 name: apm-secret
                 key: apm-url
-          - name: ELASTIC_CLOUD_APM_TOKEN
+          - name: ELASTIC_APM_SECRET_TOKEN
             valueFrom:
               secretKeyRef:
                 name: apm-secret
                 key: apm-token
+          - name: ELASTIC_APM_SERVICE_NAME
+            value: spring-petclinic-monolith
+          - name: ELASTIC_APM_APPLICATION_PACKAGES
+            value: org.springframework.samples
+          args: [
+                "-Dspring.profiles.active=mysql",
+                "-Dspring.datasource.initialize=always",
+                "-Dspring.datasource.url=jdbc:mysql://mysql-service/petclinic",
+                "-XX:+StartAttachListener"
+                ]
 ---
 apiVersion: v1
 kind: Service
