@@ -3,9 +3,10 @@
 <script th:src="@{/resources/js/elastic-apm-rum.umd.js}"></script>
  <script th:inline="javascript">
     var pageName = window.location.pathname.replace(/[0-9]+/gi, "X");
+    var serverUrl = window.location.origin;
     elasticApm.init({
      serviceName: 'petclinic-frontend',
-     serverUrl: 'http://localhost:80/',
+     serverUrl: serverUrl,
      distributedTracingOrigins: [],
      pageLoadTransactionName: pageName,
      active: true,
