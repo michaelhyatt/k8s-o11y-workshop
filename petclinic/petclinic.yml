@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic-deployment
+  labels:
+    app: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+        - name: petclinic
+          image: petclinic:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          args: [
+                "-Delastic.apm.server_urls=${ELASTIC_CLOUD_APM_SERVER_URLS}",
+                "-Delastic.apm.secret_token=${ELASTIC_CLOUD_APM_TOKEN}",
+                "-Delastic.apm.application_packages=org.springframework.samples",
+                "-Delastic.apm.service_name=spring-petclinic-monolith",
+                "-Dspring.profiles.active=mysql",
+                "-Dspring.datasource.initialize=always",
+                "-Dspring.datasource.url=jdbc:mysql://mysql-service/petclinic",
+                "-XX:+StartAttachListener"
+          ]
+          env:
+          - name: ELASTIC_CLOUD_APM_SERVER_URLS
+            valueFrom:
+              secretKeyRef:
+                name: apm-secret
+                key: apm-url
+          - name: ELASTIC_CLOUD_APM_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: apm-secret
+                key: apm-token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service
+spec:
+  selector:
+    app: petclinic
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

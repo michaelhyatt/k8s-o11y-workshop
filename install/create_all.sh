@@ -20,3 +20,14 @@ kubectl wait --for=condition=ready pods/busybox --timeout=30m
 
 kubectl exec busybox -- curl nginx-service
 kubectl exec busybox -- curl nginx-service/server-status
+
+# deploy mysql DB
+kubectl create -f mysql/mysql.yml
+
+# build  and deploy petclinic docker
+# If running on minikube, point it to the minikube docker daemon
+eval $(minikube docker-env)
+
+docker build -t petclinic docker/petclinic
+
+kubectl create -f petclinic/petclinic.yml
