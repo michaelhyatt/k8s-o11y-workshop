@@ -13,6 +13,7 @@ data:
       - module: kubernetes
       - module: docker
       - module: system
+      - module: mysql
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
