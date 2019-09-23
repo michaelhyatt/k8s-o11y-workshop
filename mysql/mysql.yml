@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,24 +31,17 @@ spec:
         co.elastic.metrics/hosts: 'root:petclinic@tcp(${data.host}:${data.port})/'
     spec:
       containers:
-        - name: mysql
-          image: mysql:5.7.8
-          ports:
-            - containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: petclinic
-            - name: MYSQL_DATABASE
-              value: petclinic
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql-service
-spec:
-  selector:
-    app: mysql
-  ports:
-  - protocol: TCP
-    port: 3306
-    targetPort: 3306
+      - name: mysql
+        image: mysql:5.7.27
+        ports:
+        - containerPort: 3306
+        resources:
+          limits:
+            memory: 300Mi
+          requests:
+            memory: 200Mi
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: petclinic
+        - name: MYSQL_DATABASE
+          value: petclinic

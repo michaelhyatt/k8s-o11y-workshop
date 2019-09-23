@@ -19,7 +19,7 @@ spec:
           image: petclinic:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+          - containerPort: 8080
           env:
           - name: ELASTIC_APM_SERVER_URLS
             valueFrom:
@@ -35,12 +35,15 @@ spec:
             value: spring-petclinic-monolith
           - name: ELASTIC_APM_APPLICATION_PACKAGES
             value: org.springframework.samples
-          args: [
-                "-Dspring.profiles.active=mysql",
-                "-Dspring.datasource.initialize=always",
-                "-Dspring.datasource.url=jdbc:mysql://mysql-service/petclinic",
-                "-XX:+StartAttachListener"
-                ]
+          - name: JAVA_OPTS
+            value: >-
+              -Dspring.profiles.active=mysql
+              -Ddatabase=mysql
+              -Dspring.datasource.username=root
+              -Dspring.datasource.password=petclinic
+              -Dspring.datasource.initialization-mode=always
+              -Dspring.datasource.url=jdbc:mysql://mysql-service/petclinic
+              -XX:+StartAttachListener
 ---
 apiVersion: v1
 kind: Service
