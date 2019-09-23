@@ -37,9 +37,9 @@ spec:
         - containerPort: 3306
         resources:
           limits:
-            memory: 300Mi
+            memory: 400Mi
           requests:
-            memory: 200Mi
+            memory: 300Mi
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: petclinic
