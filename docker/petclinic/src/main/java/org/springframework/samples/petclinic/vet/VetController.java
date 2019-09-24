@@ -39,10 +39,15 @@ class VetController {
     public VetController(VetRepository clinicService) {
         this.vets = clinicService;
     }
-    
+
     @ModelAttribute("transaction")
     public Transaction transaction() {
         return ElasticApm.currentTransaction();
+    }
+
+    @ModelAttribute("apmServer")
+    public String apmServer() {
+        return System.getenv("ELASTIC_APM_SERVER_URLS");
     }
 
     @GetMapping("/vets.html")

@@ -61,7 +61,12 @@ class VisitController {
     public Transaction transaction() {
         return ElasticApm.currentTransaction();
     }
-    
+
+    @ModelAttribute("apmServer")
+    public String apmServer() {
+        return System.getenv("ELASTIC_APM_SERVER_URLS");
+    }
+
     /**
      * Called before each and every @RequestMapping annotated method.
      * 2 goals:

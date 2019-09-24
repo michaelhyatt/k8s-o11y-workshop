@@ -106,7 +106,12 @@ class PetController {
     public Transaction transaction() {
         return ElasticApm.currentTransaction();
     }
-    
+
+    @ModelAttribute("apmServer")
+    public String apmServer() {
+        return System.getenv("ELASTIC_APM_SERVER_URLS");
+    }
+
     @PostMapping("/pets/{petId}/edit")
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
         if (result.hasErrors()) {

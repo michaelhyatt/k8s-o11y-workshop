@@ -146,10 +146,15 @@ class OwnerController {
     public String error() {
         throw new RuntimeException("No Pet exception");
     }
-    
+
     @ModelAttribute("transaction")
     public Transaction transaction() {
         return ElasticApm.currentTransaction();
+    }
+
+    @ModelAttribute("apmServer")
+    public String apmServer() {
+        return System.getenv("ELASTIC_APM_SERVER_URLS");
     }
 
     private void lookingForLostOwners(){

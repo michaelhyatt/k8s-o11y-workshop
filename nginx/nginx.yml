@@ -48,9 +48,21 @@ data:
         listen       80;
         server_name  localhost;
 
+        location /intake {
+          if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' '*';
+            add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS';
+            add_header 'Access-Control-Allow-Headers' 'Accept:,Accept-Encoding,Accept-Language:,Cache-Control,Connection,DNT,Pragma,Host,Referer,Upgrade-Insecure-Requests,User-Agent,elastic-apm-traceparent';
+            add_header 'Access-Control-Max-Age' 1728000;
+            add_header 'Access-Control-Allow-Credentials' 'true';
+            add_header 'Content-Type' 'text/plain; charset=utf-8';
+            add_header 'Content-Length' 0;
+            return 200;
+          }
+        }
+
         location / {
-            root   /usr/share/nginx/html;
-            index  index.html index.htm;
+          proxy_pass http://petclinic-service:8080/;
         }
 
         location /server-status {
@@ -68,10 +80,12 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: petclinic-nginx-service
 spec:
   selector:
     app: nginx
   ports:
   - protocol: TCP
     port: 80
+    targetPort: 80
+  type: LoadBalancer

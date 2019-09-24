@@ -37,10 +37,14 @@ class CrashController {
         throw new RuntimeException("Expected: controller used to showcase what "
                 + "happens when an exception is thrown");
     }
-    
+
     @ModelAttribute("transaction")
     public Transaction transaction() {
         return ElasticApm.currentTransaction();
     }
 
+    @ModelAttribute("apmServer")
+    public String apmServer() {
+        return System.getenv("ELASTIC_APM_SERVER_URLS");
+    }
 }

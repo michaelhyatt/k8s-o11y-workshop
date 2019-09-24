@@ -96,3 +96,17 @@ kubectl create -f petclinic/petclinic.yml
 ```bash
 minikube service petclinic-service
 ```
+
+### May need RUM enabled on APM server in the cloud
+```
+apm-server.rum.enabled=true
+```
+
+### TODO:
+* Fix for multiline java errors
+* NGINX config
+* MySQL slowlog
+* prometheus metrics and config
+* network analysis with pcketbeat
+* K8s security with beats
+* Security in multi-user multi-namespace deployments
