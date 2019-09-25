@@ -1,6 +1,6 @@
 #!/bin/sh -xvf
 
-kubectl create -f secret.yml
+#kubectl create -f secret.yml
 kubectl create -f kube-state-metrics
 kubectl create -f metricbeat/metricbeat-setup.yml
 kubectl create -f filebeat/filebeat-setup.yml
