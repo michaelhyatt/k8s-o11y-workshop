@@ -8,6 +8,9 @@ metadata:
     k8s-app: filebeat
 data:
   filebeat.yml: |-
+    setup.template.settings:
+      index.mapping.total_fields.limit: 5000
+      
     filebeat.autodiscover:
      providers:
        - type: kubernetes

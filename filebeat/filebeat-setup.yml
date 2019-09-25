@@ -8,6 +8,9 @@ metadata:
     k8s-app: filebeat-init
 data:
   filebeat.yml: |-
+    setup.template.settings:
+      index.mapping.total_fields.limit: 2000
+
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
 ---

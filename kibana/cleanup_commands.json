@@ -16,7 +16,9 @@ DELETE filebeat-7.3.2*
 
 DELETE metricbeat-*
 
-DELETE apm-*
+DELETE apm-*-metric
+DELETE apm-*-transaction
+DELETE apm-*-span
 
 DELETE _template/filebeat-7.3.2
 

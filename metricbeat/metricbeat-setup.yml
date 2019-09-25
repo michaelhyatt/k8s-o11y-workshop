@@ -8,6 +8,9 @@ metadata:
     k8s-app: metricbeat-init
 data:
   metricbeat.yml: |-
+    setup.template.settings:
+      index.mapping.total_fields.limit: 5000
+
     metricbeat.modules:
       - module: nginx
       - module: kubernetes
