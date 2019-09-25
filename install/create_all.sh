@@ -26,7 +26,7 @@ kubectl create -f mysql/mysql.yml
 
 # build  and deploy petclinic docker
 # If running on minikube, point it to the minikube docker daemon
-eval $(minikube docker-env)
+# eval $(minikube docker-env)
 
 docker build -t petclinic docker/petclinic
 

@@ -97,11 +97,6 @@ kubectl create -f petclinic/petclinic.yml
 minikube service petclinic-service
 ```
 
-### May need RUM enabled on APM server in the cloud
-```
-apm-server.rum.enabled=true
-```
-
 ### TODO:
 * Fix for multiline java errors
 * MySQL slowlog
@@ -112,3 +107,4 @@ apm-server.rum.enabled=true
 * Use prebuilt ISO to create Strigo environment
 * On Exception page, transaction is null, layout template needs fix
 * Update credentials through command line
+* Redirect at the end of the update is broken
