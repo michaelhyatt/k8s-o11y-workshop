@@ -50,6 +50,7 @@ data:
 
         location /intake {
           if ($request_method = 'OPTIONS') {
+            # This is a bit too wide, would be enough to replace it with only APM server url for CORS support.
             add_header 'Access-Control-Allow-Origin' '*';
             add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS';
             add_header 'Access-Control-Allow-Headers' 'Accept:,Accept-Encoding,Accept-Language:,Cache-Control,Connection,DNT,Pragma,Host,Referer,Upgrade-Insecure-Requests,User-Agent,elastic-apm-traceparent';
@@ -87,5 +88,4 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 80
-  type: LoadBalancer
+    nodePort: 30080

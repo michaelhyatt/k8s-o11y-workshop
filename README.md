@@ -110,3 +110,4 @@ apm-server.rum.enabled=true
 * network analysis with pcketbeat
 * K8s security with beats
 * Security in multi-user multi-namespace deployments
+* Use prebuilt ISO to create Strigo environment
