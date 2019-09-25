@@ -1,0 +1,23 @@
+POST .kibana/_delete_by_query
+{
+  "query": {
+    "terms": {
+      "type": [
+        "visualization",
+        "dashboard",
+        "search",
+        "index-pattern"
+      ]
+    }
+  }
+}
+
+DELETE filebeat-7.3.2*
+
+DELETE metricbeat-*
+
+DELETE apm-*
+
+DELETE _template/filebeat-7.3.2
+
+DELETE _template/metricbeat-7.3.2
