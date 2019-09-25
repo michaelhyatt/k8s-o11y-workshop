@@ -112,4 +112,3 @@ apm-server.rum.enabled=true
 * Use prebuilt ISO to create Strigo environment
 * On Exception page, transaction is null, layout template needs fix
 * Update credentials through command line
-* Limit of total fields [1000] in index [metricbeat-7.3.2] has been exceeded
