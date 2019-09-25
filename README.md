@@ -3,7 +3,7 @@
 ## Prepare cloud VM
 ```bash
 
-# Install on cloud Debian9 machines (2 cores 8GB RAM)
+# Install on cloud Debian9 machines (2 cores 8GB RAM) - Strigo, GCP, etc
 ```bash
 sudo apt install git -y
 
@@ -13,88 +13,14 @@ cd k8s-o11y-workshop
 ./install/install-debian9.sh
 cd ~/k8-o11y-workshop
 
-```
+# Update install/create_secrets.sh with cloud details
+nano install/create_secrets.sh
 
-## 1. Start minikube on local machine (not Debian)
-```bash
-minikube start --kubernetes-version=1.16.0
-```
+# Create secrets credentials
+./install/create_secrets.sh
 
-## 2. Deploy secrets
-Provides connectivity to Elastic cloud
-```bash
-# First, copy the template into secret.yml
-cp secret.yml.template secret.yml
-
-# Then, create base64 encoded secret values, as following for
-# cloud-id, cloud-auth, apm-url, apm-token and update the values in secret.yml
-# Make sure to join long strings into one.
-echo -n 'my-app' | base64
-
-
-# Lastly, create secrets in K8s:
-kubectl create -f secret.yml
-```
-
-## 3. Kube-state-metrics Deployment
-```bash
-# May say it already exists...
-kubectl create -f kube-state-metrics
-```
-
-## 4. Configure cloud environment
-```bash
-kubectl create -f metricbeat/metricbeat-setup.yml
-kubectl create -f filebeat/filebeat-setup.yml
-```
-
-## 5. Filebeat deployment
-```bash
-kubectl create -f filebeat/filebeat.yml
-```
-
-## 6. Metricbeat deployment
-```bash
-kubectl create -f metricbeat/metricbeat.yml
-```
-
-## 7. NGINX deployment
-```bash
-kubectl create -f nginx/nginx.yml
-```
-
-## 8. Busybox deployment
-```bash
-kubectl create -f busybox/busybox.yml
-```
-
-### 9. Invoke busybox curl
-```bash
-# Main service
-kubectl exec busybox -- curl nginx-service
-
-# server-status end point
-kubectl exec busybox -- curl nginx-service/server-status
-```
-
-### 10. Deploy MySql DB
-```bash
-kubectl create -f mysql/mysql.yml
-```
-
-### 11. Build  and deploy petclinic docker
-```bash
-# If running on minikube, point it to the minikube docker daemon
-eval $(minikube docker-env)
-
-docker build -t petclinic docker/petclinic
-
-kubectl create -f petclinic/petclinic.yml
-```
-
-### 11a. Open petclinic service in the browser through minikube
-```bash
-minikube service petclinic-service
+# Install the rest
+./install/create_all.sh
 ```
 
 ### TODO:
@@ -106,5 +32,4 @@ minikube service petclinic-service
 * Security in multi-user multi-namespace deployments
 * Use prebuilt ISO to create Strigo environment
 * On Exception page, transaction is null, layout template needs fix
-* Update credentials through command line
 * Redirect at the end of the update is broken
