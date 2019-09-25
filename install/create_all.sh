@@ -11,15 +11,15 @@ kubectl wait --for=condition=complete job/metricbeat-init --namespace=kube-syste
 
 kubectl create -f filebeat/filebeat.yml
 kubectl create -f metricbeat/metricbeat.yml
-kubectl create -f nginx/nginx.yml
-kubectl create -f busybox/busybox.yml
+# kubectl create -f nginx/nginx.yml
+# kubectl create -f busybox/busybox.yml
 
 # wait to finish and run some curl commands
-kubectl wait --for=condition=available deployments/nginx --timeout=30m
-kubectl wait --for=condition=ready pods/busybox --timeout=30m
-
-kubectl exec busybox -- curl nginx-service
-kubectl exec busybox -- curl nginx-service/server-status
+# kubectl wait --for=condition=available deployments/nginx --timeout=30m
+# kubectl wait --for=condition=ready pods/busybox --timeout=30m
+#
+# kubectl exec busybox -- curl nginx-service
+# kubectl exec busybox -- curl nginx-service/server-status
 
 # deploy mysql DB
 kubectl create -f mysql/mysql.yml
@@ -31,3 +31,5 @@ eval $(minikube docker-env)
 docker build -t petclinic docker/petclinic
 
 kubectl create -f petclinic/petclinic.yml
+
+kubectl create -f nginx/nginx.yml

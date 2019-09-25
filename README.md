@@ -104,10 +104,10 @@ apm-server.rum.enabled=true
 
 ### TODO:
 * Fix for multiline java errors
-* NGINX config
 * MySQL slowlog
 * prometheus metrics and config
-* network analysis with pcketbeat
+* network analysis with packetbeat
 * K8s security with beats
 * Security in multi-user multi-namespace deployments
 * Use prebuilt ISO to create Strigo environment
+* On Exception page, transaction is null, layout template needs fix
