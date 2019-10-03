@@ -12,7 +12,7 @@ POST .kibana/_delete_by_query
   }
 }
 
-DELETE filebeat-7.3.2*
+DELETE filebeat-*
 
 DELETE metricbeat-*
 
@@ -20,6 +20,6 @@ DELETE apm-*-metric
 DELETE apm-*-transaction
 DELETE apm-*-span
 
-DELETE _template/filebeat-7.3.2
+DELETE _template/filebeat-*
 
-DELETE _template/metricbeat-7.3.2
+DELETE _template/metricbeat-*
