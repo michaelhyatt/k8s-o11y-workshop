@@ -13,6 +13,9 @@ cd k8s-o11y-workshop
 ./install/install-debian9.sh
 cd ~/k8-o11y-workshop
 
+# Run build ahead of the rest
+docker build -t petclinic docker/petclinic
+
 # Update install/create_secrets.sh with cloud details
 nano install/create_secrets.sh
 
@@ -24,7 +27,6 @@ nano install/create_secrets.sh
 ```
 
 ### TODO:
-* Fix for multiline java errors
 * MySQL slowlog
 * prometheus metrics and config
 * network analysis with packetbeat
