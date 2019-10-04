@@ -4,7 +4,6 @@
 ```bash
 
 # Install on cloud Debian9 machines (2 cores 8GB RAM) - Strigo, GCP, etc
-```bash
 sudo apt install git -y
 
 git clone https://github.com/michaelhyatt/k8s-o11y-workshop.git
