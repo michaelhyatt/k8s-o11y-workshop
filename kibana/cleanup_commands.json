@@ -16,9 +16,9 @@ DELETE filebeat-*
 
 DELETE metricbeat-*
 
-DELETE apm-*-metric
-DELETE apm-*-transaction
-DELETE apm-*-span
+DELETE apm-*-metric*
+DELETE apm-*-transaction*
+DELETE apm-*-span*
 
 DELETE _template/filebeat-*
 
