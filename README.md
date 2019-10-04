@@ -34,6 +34,5 @@ nano install/create_secrets.sh
 * Use prebuilt ISO to create Strigo environment
 * On Exception page, transaction is null, layout template needs fix to forward with port number included
 * Redirect at the end of the update is broken
-* Upgrade to Elastic version 7.4.x
 * Load generator
 * ML and alerting setup
