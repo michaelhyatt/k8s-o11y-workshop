@@ -124,7 +124,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: metricbeat
-        image: docker.elastic.co/beats/metricbeat:7.3.2
+        image: docker.elastic.co/beats/metricbeat:7.4.0
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -203,7 +203,7 @@ data:
   metricbeat.yml: |-
     setup.template.settings:
       index.mapping.total_fields.limit: 5000
-          
+
     metricbeat.config.modules:
       # Mounted `metricbeat-daemonset-modules` configmap:
       path: ${path.config}/modules.d/*.yml
@@ -265,7 +265,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: metricbeat
-        image: docker.elastic.co/beats/metricbeat:7.3.2
+        image: docker.elastic.co/beats/metricbeat:7.4.0
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -346,6 +346,7 @@ rules:
   resources:
   - statefulsets
   - deployments
+  - replicasets
   verbs: ["get", "list", "watch"]
 - apiGroups:
   - ""
