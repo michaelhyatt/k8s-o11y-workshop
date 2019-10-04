@@ -24,7 +24,14 @@ nano install/create_secrets.sh
 # Install the rest
 ./install/create_all.sh
 ```
-
+## Elastic Cloud
+Create cloud cluster and record the following to be populated in `install/create_secrets.sh` script:
+```
+cloud_id=...
+cloud_auth=...
+apm_url=...
+apm_token=...
+```
 ### TODO:
 * MySQL slowlog
 * prometheus metrics and config
