@@ -17,6 +17,7 @@ data:
       - module: docker
       - module: system
       - module: mysql
+      - module: prometheus
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}

@@ -110,7 +110,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Elastic APM agent -->
+		<!-- Elastic APM dependencies -->
 		<dependency>
 			<groupId>co.elastic.apm</groupId>
 			<artifactId>apm-agent-attach</artifactId>
@@ -126,6 +126,19 @@
 			<artifactId>elastic-apm-agent</artifactId>
 			<version>${elastic-apm.version}</version>
 		</dependency>
+		<!-- End of Elastic APM dependencies -->
+
+		<!-- Prometheus related stuff -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+		<!-- End of Prometheus related stuff -->
+
 	</dependencies>
 
 	<build>

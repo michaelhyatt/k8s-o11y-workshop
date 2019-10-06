@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
+import io.micrometer.core.annotation.Timed;
 
 @Controller
 class WelcomeController {
 
+	@Timed
     @GetMapping("/")
     public String welcome() {
         return "welcome";

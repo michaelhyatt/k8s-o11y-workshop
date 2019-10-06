@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * @author Juergen Hoeller
@@ -50,6 +51,7 @@ class VetController {
         return System.getenv("ELASTIC_APM_SERVER_URLS");
     }
 
+    @Timed
     @GetMapping("/vets.html")
     public String showVetList(Map<String, Object> model) {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
@@ -60,6 +62,7 @@ class VetController {
         return "vets/vetList";
     }
 
+    @Timed
     @GetMapping({ "/vets" })
     public @ResponseBody Vets showResourcesVetList() {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
