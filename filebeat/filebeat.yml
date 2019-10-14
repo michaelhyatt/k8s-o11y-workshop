@@ -32,10 +32,14 @@ data:
                   message: "INFO"
               - equals:
                   kubernetes.container.name: "metricbeat"
+              - contains:
+                  message: "Non-zero metrics in the last"
             - contains:
                 message: "get services heapster"
             - contains:
                 kubernetes.container.name: "kube-addon-manager"
+            - contains:
+                kubernetes.container.name: "dashboard-metrics-scraper"
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}

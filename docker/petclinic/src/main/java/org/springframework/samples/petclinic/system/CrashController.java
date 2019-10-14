@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * Controller used to showcase what happens when an exception is thrown
@@ -32,6 +33,7 @@ import co.elastic.apm.api.Transaction;
 @Controller
 class CrashController {
 
+	@Timed
     @GetMapping("/oups")
     public String triggerException() {
         throw new RuntimeException("Expected: controller used to showcase what "

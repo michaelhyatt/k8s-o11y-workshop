@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * @author Juergen Hoeller
@@ -87,12 +88,14 @@ class VisitController {
     }
 
     // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
+    @Timed
     @GetMapping("/owners/*/pets/{petId}/visits/new")
     public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
         return "pets/createOrUpdateVisitForm";
     }
 
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
+    @Timed
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
         if (result.hasErrors()) {

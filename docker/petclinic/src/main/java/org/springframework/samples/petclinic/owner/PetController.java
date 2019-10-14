@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * @author Juergen Hoeller
@@ -72,6 +73,7 @@ class PetController {
         dataBinder.setValidator(new PetValidator());
     }
 
+    @Timed
     @GetMapping("/pets/new")
     public String initCreationForm(Owner owner, ModelMap model) {
         Pet pet = new Pet();
@@ -80,6 +82,7 @@ class PetController {
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
+    @Timed
     @PostMapping("/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
@@ -95,6 +98,7 @@ class PetController {
         }
     }
 
+    @Timed
     @GetMapping("/pets/{petId}/edit")
     public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
         Pet pet = this.pets.findById(petId);
@@ -112,6 +116,7 @@ class PetController {
         return System.getenv("ELASTIC_APM_SERVER_URLS");
     }
 
+    @Timed
     @PostMapping("/pets/{petId}/edit")
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
         if (result.hasErrors()) {

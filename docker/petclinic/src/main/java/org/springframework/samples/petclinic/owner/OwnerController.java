@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Transaction;
+import io.micrometer.core.annotation.Timed;
 
 /**
  * @author Juergen Hoeller
@@ -59,6 +60,7 @@ class OwnerController {
         dataBinder.setDisallowedFields("id");
     }
 
+    @Timed
     @GetMapping("/owners/new")
     public String initCreationForm(Map<String, Object> model) {
         Owner owner = new Owner();
@@ -66,6 +68,7 @@ class OwnerController {
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
+    @Timed
     @PostMapping("/owners/new")
     public String processCreationForm(@Valid Owner owner, BindingResult result) {
         if (result.hasErrors()) {
@@ -76,12 +79,14 @@ class OwnerController {
         }
     }
 
+    @Timed
     @GetMapping("/owners/find")
     public String initFindForm(Map<String, Object> model) {
         model.put("owner", new Owner());
         return "owners/findOwners";
     }
 
+    @Timed
     @GetMapping("/owners")
     public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
 
@@ -118,6 +123,7 @@ class OwnerController {
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
+    @Timed
     @PostMapping("/owners/{ownerId}/edit")
     public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable("ownerId") int ownerId) {
         if (result.hasErrors()) {
@@ -135,6 +141,7 @@ class OwnerController {
      * @param ownerId the ID of the owner to display
      * @return a ModelMap with the model attributes for the view
      */
+    @Timed
     @GetMapping("/owners/{ownerId}")
     public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
@@ -142,6 +149,7 @@ class OwnerController {
         return mav;
     }
 
+    @Timed
     @GetMapping("/nopet")
     public String error() {
         throw new RuntimeException("No Pet exception");
