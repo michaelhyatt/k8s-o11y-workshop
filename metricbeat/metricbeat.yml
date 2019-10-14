@@ -18,20 +18,32 @@ data:
       reload.enabled: false
 
     metricbeat.autodiscover:
-     providers:
+      providers:
        - type: kubernetes
          host: ${NODE_NAME}
-         hints.enabled: true
+         # hints.enabled: true
+         # Fix for https://github.com/elastic/beats/issues/13958
+         # include_annotations: ["prometheus.io/scrape", "prometheus.io/port", "prometheus.io/path"]
+         # annotations.dedot: true
+         templates:
+           - condition.equals:
+              kubernetes.annotations.prometheus.io/scrape: "true"
+             config:
+              - module: prometheus
+                metricsets: ["collector"]
+                hosts: "${data.host}:${data.kubernetes.annotations.prometheus.io/port}"
+                metrics_path: "${data.kubernetes.annotations.prometheus.io/path}"
+                period: 1m
+
+         # To be removed in 7.5.x
 
     # logging.level: debug
 
     processors:
       - add_cloud_metadata:
       - add_host_metadata:
-      - add_docker_metadata:
       - add_kubernetes_metadata:
-      - drop_fields:
-          fields: ["kubernetes.labels.kubernetes", "kubernetes.labels.addonmanager", "kubernetes.labels.node-role", "kubernetes.labels.beta"]
+      - add_docker_metadata:
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
@@ -131,7 +143,7 @@ spec:
           "-c", "/etc/metricbeat.yml",
           "-e",
           "-system.hostfs=/hostfs",
-          "-d", "autodiscover",
+          # "-d", "*",
         ]
         env:
         - name: ELASTIC_CLOUD_ID
@@ -204,9 +216,6 @@ metadata:
     k8s-app: metricbeat
 data:
   metricbeat.yml: |-
-    setup.template.settings:
-      index.mapping.total_fields.limit: 5000
-
     metricbeat.config.modules:
       # Mounted `metricbeat-daemonset-modules` configmap:
       path: ${path.config}/modules.d/*.yml
@@ -215,10 +224,6 @@ data:
 
     processors:
       - add_cloud_metadata:
-      - add_host_metadata:
-      - add_kubernetes_metadata:
-      - drop_fields:
-          fields: ["kubernetes.labels.kubernetes", "kubernetes.labels.addonmanager", "kubernetes.labels.node-role", "kubernetes.labels.beta"]
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
