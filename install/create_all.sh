@@ -4,13 +4,16 @@
 kubectl create -f kube-state-metrics
 kubectl create -f metricbeat/metricbeat-setup.yml
 kubectl create -f filebeat/filebeat-setup.yml
+kubectl create -f filebeat/packetbeat-setup.yml
 
 # Wait for metricbeat and filebeat init
 kubectl wait --for=condition=complete job/filebeat-init --namespace=kube-system --timeout=30m
 kubectl wait --for=condition=complete job/metricbeat-init --namespace=kube-system --timeout=30m
+kubectl wait --for=condition=complete job/packetbeat-init --namespace=kube-system --timeout=30m
 
 kubectl create -f filebeat/filebeat.yml
 kubectl create -f metricbeat/metricbeat.yml
+kubectl create -f packetbeat/packetbeat.yml
 # kubectl create -f nginx/nginx.yml
 # kubectl create -f busybox/busybox.yml
 

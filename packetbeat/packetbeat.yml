@@ -1,0 +1,178 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: packetbeat-deployment-config
+  namespace: kube-system
+  labels:
+    k8s-app: packetbeat
+data:
+  packetbeat.yml: |-
+    packetbeat.interfaces.device: any
+
+    packetbeat.flows:
+      timeout: 30s
+      period: 10s
+
+    processors:
+      - add_cloud_metadata:
+      - add_host_metadata:
+      - dns:
+          type: reverse
+          fields:
+            source.ip: source.hostname
+            destination.ip: destination.hostname
+            
+    packetbeat.protocols:
+
+      - type: dhcpv4
+        ports: [67, 68]
+
+      - type: dns
+        ports: [53]
+
+      - type: http
+        ports: [80, 8080, 8081, 5000, 8002]
+
+      - type: memcache
+        ports: [11211]
+
+      - type: mysql
+        ports: [3306,3307]
+
+      - type: pgsql
+        ports: [5432]
+
+      - type: redis
+        ports: [6379]
+
+      - type: thrift
+        ports: [9090]
+
+      - type: mongodb
+        ports: [27017]
+
+      - type: cassandra
+        ports: [9042]
+
+      - type: tls
+        ports: [443, 993, 995, 5223, 8443, 8883, 9243]
+
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+---
+# Deploy singleton instance in the whole cluster
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: packetbeat
+  namespace: kube-system
+  labels:
+    k8s-app: packetbeat
+spec:
+  selector:
+    matchLabels:
+      k8s-app: packetbeat
+  template:
+    metadata:
+      labels:
+        k8s-app: packetbeat
+    spec:
+      serviceAccountName: packetbeat
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: packetbeat
+        image: docker.elastic.co/beats/packetbeat:7.4.0
+        args: [
+          "-c", "/etc/packetbeat.yml",
+          "-e",
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-id
+        - name: ELASTIC_CLOUD_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-auth
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        securityContext:
+          runAsUser: 0
+          capabilities:
+            add:
+              - NET_ADMIN
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: config
+          mountPath: /etc/packetbeat.yml
+          readOnly: true
+          subPath: packetbeat.yml
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: packetbeat-deployment-config
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: packetbeat
+subjects:
+- kind: ServiceAccount
+  name: packetbeat
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: packetbeat
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: packetbeat
+  labels:
+    k8s-app: packetbeat
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes
+  - namespaces
+  - events
+  - pods
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions"]
+  resources:
+  - replicasets
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources:
+  - statefulsets
+  - deployments
+  - replicasets
+  verbs: ["get", "list", "watch"]
+- apiGroups:
+  - ""
+  resources:
+  - nodes/stats
+  verbs:
+  - get
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: packetbeat
+  namespace: kube-system
+  labels:
+    k8s-app: packetbeat
+---
