@@ -15,6 +15,9 @@ cd ~/k8-o11y-workshop
 # Run build ahead of the rest
 docker build -t petclinic docker/petclinic
 
+# Start minikube locally
+minikube start --kubernetes-version=1.16.0
+
 # Update install/create_secrets.sh with cloud details
 nano install/create_secrets.sh
 
@@ -34,11 +37,8 @@ apm_token=...
 ```
 ### TODO:
 * MySQL slowlog
-* prometheus metrics and config
-* network analysis with packetbeat
 * K8s security with beats
 * Security in multi-user multi-namespace deployments
-* Use prebuilt ISO to create Strigo environment
 * On Exception page, transaction is null, layout template needs fix to forward with port number included
 * Redirect at the end of the update is broken
 * Load generator
