@@ -28,10 +28,17 @@ data:
             - contains:
                 message: "OpenAPI AggregationController: Processing item k8s_internal_local_delegation_chain"
             - and:
-              - contains:
-                  message: "INFO"
               - equals:
                   kubernetes.container.name: "metricbeat"
+              - contains:
+                  message: "INFO"
+              - contains:
+                  message: "Non-zero metrics in the last"
+            - and:
+              - equals:
+                  kubernetes.container.name: "packetbeat"
+              - contains:
+                  message: "INFO"
               - contains:
                   message: "Non-zero metrics in the last"
             - contains:
