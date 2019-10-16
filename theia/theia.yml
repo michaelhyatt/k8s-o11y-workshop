@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: theia
+  labels:
+    app: theia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: theia
+  template:
+    metadata:
+      labels:
+        app: theia
+    spec:
+      containers:
+      - name: theia
+        image: theiaide/theia:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: project
+          mountPath: /home/project
+          readOnly: false
+      volumes:
+      - name: project
+        hostPath:
+          path: /home/admin/k8s-o11y-workshop
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: theia-service
+spec:
+  selector:
+    app: theia
+  ports:
+  - protocol: TCP
+    port: 3000
+    nodePort: 30083
+  type: LoadBalancer
