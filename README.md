@@ -9,7 +9,7 @@ git clone https://github.com/michaelhyatt/k8s-o11y-workshop.git
 cd k8s-o11y-workshop
 
 ./install/install-debian9.sh
-cd ~/k8-o11y-workshop
+cd ~/k8s-o11y-workshop
 
 # Run build ahead of the rest
 docker build -t petclinic docker/petclinic
