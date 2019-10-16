@@ -26,8 +26,38 @@ spec:
           readOnly: false
       volumes:
       - name: project
-        hostPath:
-          path: /home/admin/k8s-o11y-workshop
+        persistentVolumeClaim:
+          claimName: hostpath-pvc
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-local
+  labels:
+    type: local
+spec:
+  storageClassName: local
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/admin/k8s-o11y-workshop"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: hostpath-pvc
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: local
 ---
 apiVersion: v1
 kind: Service
