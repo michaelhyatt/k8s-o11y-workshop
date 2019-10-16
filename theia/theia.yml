@@ -24,6 +24,7 @@ spec:
         - name: project
           mountPath: /home/project
           readOnly: false
+          defaultMode: 0666
       volumes:
       - name: project
         hostPath:
