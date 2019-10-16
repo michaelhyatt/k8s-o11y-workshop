@@ -2,7 +2,6 @@
 
 ## Prepare cloud VM
 ```bash
-
 # Install on cloud Debian9 machines (2 cores 8GB RAM) - Strigo, GCP, etc
 sudo apt install git -y
 
