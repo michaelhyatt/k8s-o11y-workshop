@@ -54,6 +54,10 @@ kubectl create -f $HOME/k8s-o11y-workshop/nginx/nginx.yml
 
 ```
 
+## Petclinic UI
+Use the public DNS and port 30080 to access petclinic UI
+http://<public-dns-or-ip-address>:30080
+
 ### TODO:
 * MySQL slowlog
 * K8s security with beats
