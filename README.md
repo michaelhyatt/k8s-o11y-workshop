@@ -29,6 +29,7 @@ apm_token=...
 $HOME/k8s-o11y-workshop/install/start_k8s.sh
 
 # Update with Cloud cluster details and create secrets credentials
+# Use vi, nano, Theia (as below)
 nano $HOME/k8s-o11y-workshop/install/create_secrets.sh
 $HOME/k8s-o11y-workshop/install/create_secrets.sh
 
@@ -52,6 +53,10 @@ kubectl create -f $HOME/k8s-o11y-workshop/petclinic/petclinic.yml
 kubectl create -f $HOME/k8s-o11y-workshop/nginx/nginx.yml
 
 ```
+
+## Open code editor
+Use the public DNS and port 30083 to access web based Theia editor
+http://<public-dns-or-ip-address>:30083
 
 ## Petclinic UI
 Use the public DNS and port 30080 to access petclinic UI
