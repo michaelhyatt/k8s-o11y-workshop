@@ -14,21 +14,6 @@ cd ~/k8-o11y-workshop
 
 # Run build ahead of the rest
 docker build -t petclinic docker/petclinic
-
-# Start minikube locally, if it is not running yet
-# sudo minikube start --kubernetes-version=1.16.0 --vm-driver=none
-# minicube post isntall
-# sudo mv /root/.kube /root/.minikube $HOME
-# sudo chown -R $USER $HOME/.kube $HOME/.minikube
-
-# Update install/create_secrets.sh with cloud details
-nano install/create_secrets.sh
-
-# Create secrets credentials
-./install/create_secrets.sh
-
-# Install the rest
-./install/create_all.sh
 ```
 ## Elastic Cloud
 Create cloud cluster and record the following to be populated in `install/create_secrets.sh` script:
@@ -38,6 +23,46 @@ cloud_auth=...
 apm_url=...
 apm_token=...
 ```
+
+### Labs: Prepare the server
+```bash
+# Start minikube locally
+cd ~/k8s-o11y-workshop
+./install/start_minikube.sh
+
+# Create secrets credentials
+./install/create_secrets.sh
+```
+
+### Labs
+```bash
+
+# Run metricbeat setup and wait for it to complete
+kubectl create -f metricbeat/metricbeat-setup.yml
+kubectl wait --for=condition=complete job/metricbeat-init --namespace=kube-system --timeout=30m
+
+# Run filebeat setup and wait for it to complete
+kubectl create -f filebeat/filebeat-setup.yml
+kubectl wait --for=condition=complete job/filebeat-init --namespace=kube-system --timeout=30m
+
+# Run packetbeat setup and wait for it to complete
+kubectl create -f packetbeat/packetbeat-setup.yml
+kubectl wait --for=condition=complete job/packetbeat-init --namespace=kube-system --timeout=30m
+
+# Deploy metricbeat, filebeat and packetbeat
+kubectl create -f filebeat/filebeat.yml
+kubectl create -f metricbeat/metricbeat.yml
+kubectl create -f packetbeat/packetbeat.yml
+
+# Deploy MySQL DB
+kubectl create -f mysql/mysql.yml
+
+# Deploy petclinic and nginx
+kubectl create -f petclinic/petclinic.yml
+kubectl create -f nginx/nginx.yml
+
+```
+
 ### TODO:
 * MySQL slowlog
 * K8s security with beats

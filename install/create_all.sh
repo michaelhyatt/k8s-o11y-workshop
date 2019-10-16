@@ -1,10 +1,10 @@
 #!/bin/sh -xvf
 
-#kubectl create -f secret.yml
+
 kubectl create -f kube-state-metrics
 kubectl create -f metricbeat/metricbeat-setup.yml
 kubectl create -f filebeat/filebeat-setup.yml
-kubectl create -f filebeat/packetbeat-setup.yml
+kubectl create -f packetbeat/packetbeat-setup.yml
 
 # Wait for metricbeat and filebeat init
 kubectl wait --for=condition=complete job/filebeat-init --namespace=kube-system --timeout=30m
