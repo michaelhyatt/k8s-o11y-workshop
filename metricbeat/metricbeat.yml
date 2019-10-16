@@ -21,7 +21,7 @@ data:
       providers:
        - type: kubernetes
          host: ${NODE_NAME}
-         # hints.enabled: true
+         hints.enabled: true
          # Fix for https://github.com/elastic/beats/issues/13958
          # include_annotations: ["prometheus.io/scrape", "prometheus.io/port", "prometheus.io/path"]
          # annotations.dedot: true
