@@ -16,7 +16,10 @@ cd ~/k8-o11y-workshop
 docker build -t petclinic docker/petclinic
 
 # Start minikube locally, if it is not running yet
-# minikube start --kubernetes-version=1.16.0
+# sudo minikube start --kubernetes-version=1.16.0 --vm-driver=none
+# minicube post isntall
+# sudo mv /root/.kube /root/.minikube $HOME
+# sudo chown -R $USER $HOME/.kube $HOME/.minikube
 
 # Update install/create_secrets.sh with cloud details
 nano install/create_secrets.sh
