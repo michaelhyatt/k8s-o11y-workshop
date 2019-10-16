@@ -10,4 +10,4 @@ kubectl create -f $HOME/k8s-o11y-workshop/kube-state-metrics
 
 kubectl create -f $HOME/k8s-o11y-workshop/theia/theia.yml
 
-source $HOME/k8s-o11y-workshop/install/aliases.sh
+. $HOME/k8s-o11y-workshop/install/aliases.sh
