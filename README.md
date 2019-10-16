@@ -27,39 +27,30 @@ apm_token=...
 ### Labs: Prepare the server
 ```bash
 # Start minikube locally
-cd ~/k8s-o11y-workshop
-./install/start_minikube.sh
+$HOME/k8s-o11y-workshop/install/start_k8s.sh
 
-# Create secrets credentials
-./install/create_secrets.sh
+# Update with Cloud cluster details and create secrets credentials
+nano $HOME/k8s-o11y-workshop/install/create_secrets.sh
+$HOME/k8s-o11y-workshop/install/create_secrets.sh
+
+# Init Kibana, Elasticsearch mappings and templates
+$HOME//k8s-o11y-workshop/install/init_beats.sh
 ```
 
 ### Labs
 ```bash
 
-# Run metricbeat setup and wait for it to complete
-kubectl create -f metricbeat/metricbeat-setup.yml
-kubectl wait --for=condition=complete job/metricbeat-init --namespace=kube-system --timeout=30m
-
-# Run filebeat setup and wait for it to complete
-kubectl create -f filebeat/filebeat-setup.yml
-kubectl wait --for=condition=complete job/filebeat-init --namespace=kube-system --timeout=30m
-
-# Run packetbeat setup and wait for it to complete
-kubectl create -f packetbeat/packetbeat-setup.yml
-kubectl wait --for=condition=complete job/packetbeat-init --namespace=kube-system --timeout=30m
-
 # Deploy metricbeat, filebeat and packetbeat
-kubectl create -f filebeat/filebeat.yml
-kubectl create -f metricbeat/metricbeat.yml
-kubectl create -f packetbeat/packetbeat.yml
+kubectl create -f $HOME/k8s-o11y-workshop/filebeat/filebeat.yml
+kubectl create -f $HOME/k8s-o11y-workshop/metricbeat/metricbeat.yml
+kubectl create -f $HOME/k8s-o11y-workshop/packetbeat/packetbeat.yml
 
 # Deploy MySQL DB
-kubectl create -f mysql/mysql.yml
+kubectl create -f $HOME/k8s-o11y-workshop/mysql/mysql.yml
 
 # Deploy petclinic and nginx
-kubectl create -f petclinic/petclinic.yml
-kubectl create -f nginx/nginx.yml
+kubectl create -f $HOME/k8s-o11y-workshop/petclinic/petclinic.yml
+kubectl create -f $HOME/k8s-o11y-workshop/nginx/nginx.yml
 
 ```
 
