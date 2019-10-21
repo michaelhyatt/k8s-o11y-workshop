@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-notebook
+  namespace: kube-system
+  labels:
+    app: jupyter-notebook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jupyter-notebook
+  template:
+    metadata:
+      labels:
+        app: jupyter-notebook
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - name: jupyter-notebook
+        image: jupyter/scipy-notebook:latest
+        ports:
+        - containerPort: 8888
+        command: ["start-notebook.sh"]
+        args: [
+                "--NotebookApp.token=''",
+                "--NotebookApp.notebook_dirUnicode='/home/jovyan/scripts'",
+              ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-id
+        - name: ELASTIC_CLOUD_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-auth
+        volumeMounts:
+        - name: project
+          mountPath: '/home/jovyan/scripts'
+          readOnly: false
+      volumes:
+      - name: project
+        persistentVolumeClaim:
+          claimName: hostpath-pvc
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-local
+  labels:
+    type: local
+spec:
+  storageClassName: local
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    # path: "/home/admin/k8s-o11y-workshop/jupyter/scripts"
+    path: "/Users/axolotl/work/elastic/k8s-workshop/jupyter/scripts"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: hostpath-pvc
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jupyter-notebook
+spec:
+  type: NodePort
+  selector:
+    app: jupyter-notebook
+  ports:
+  - protocol: TCP
+    nodePort: 30081
+    port: 8888
+    targetPort: 8888
