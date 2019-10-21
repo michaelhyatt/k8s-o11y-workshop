@@ -63,11 +63,12 @@ Use the public DNS and port 30080 to access petclinic UI
 http://public-dns-or-ip-address:30080
 
 ## Run Jupyter connected to Elastic Cloud cluster
+Start Jupyter pod:
+```bash
+kubectl create --namespace=kube-system -f $HOME/k8s-o11y-workshop/jupyter/jupyter.yml
+```
 Use the public DNS and port 30081 to access the Jupyter UI
 http://public-dns-or-ip-address:30081. Example notebook `scripts/example.ipynb` shows how to connect to Elastic Cloud cluster and use the data in pandas.
-```bash
-kubectl create --namespace=kube-system $HOME/k8s-o11y-workshop/jupyter/jupyter.yml
-```
 
 ### TODO:
 * MySQL slowlog

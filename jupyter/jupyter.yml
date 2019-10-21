@@ -45,12 +45,12 @@ spec:
       volumes:
       - name: project
         persistentVolumeClaim:
-          claimName: hostpath-pvc
+          claimName: hostpath-pvc1
 ---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-local
+  name: pv-local1
   labels:
     type: local
 spec:
@@ -65,7 +65,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: hostpath-pvc
+  name: hostpath-pvc1
 spec:
   storageClassName: local
   accessModes:
