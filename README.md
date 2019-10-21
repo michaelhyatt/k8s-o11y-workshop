@@ -56,11 +56,17 @@ kubectl create -f $HOME/k8s-o11y-workshop/nginx/nginx.yml
 
 ## Open code editor
 Use the public DNS and port 30083 to access web based Theia editor
-http://<public-dns-or-ip-address>:30083
+http://public-dns-or-ip-address:30083
 
 ## Petclinic UI
 Use the public DNS and port 30080 to access petclinic UI
-http://<public-dns-or-ip-address>:30080
+http://public-dns-or-ip-address:30080
+
+## Run Jupyter connected to Elastic Cloud cluster
+Example notebook `scripts/example.ipynb`
+```bash
+kubectl create --namespace=kube-system $HOME/k8s-o11y-workshop/jupyter/jupyter.yml
+```
 
 ### TODO:
 * MySQL slowlog
