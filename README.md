@@ -34,7 +34,7 @@ nano $HOME/k8s-o11y-workshop/install/create_secrets.sh
 $HOME/k8s-o11y-workshop/install/create_secrets.sh
 
 # Init Kibana, Elasticsearch mappings and templates
-$HOME//k8s-o11y-workshop/install/init_beats.sh
+$HOME/k8s-o11y-workshop/install/init_beats.sh
 ```
 
 ### Labs
