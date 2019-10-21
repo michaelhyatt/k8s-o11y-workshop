@@ -1,2 +1,3 @@
 secret.yml
 docker/petclinic/target/*
+jupyter/scripts/.ipynb_checkpoints/*
