@@ -60,8 +60,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    # path: "/home/admin/k8s-o11y-workshop/jupyter/scripts"
-    path: "/Users/axolotl/work/elastic/k8s-workshop/jupyter/scripts"
+    path: "/home/admin/k8s-o11y-workshop/jupyter/scripts"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
