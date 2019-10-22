@@ -31,6 +31,7 @@ then
    sudo usermod -aG sudo admin
    sudo gpasswd -a admin docker
    sudo cp -R $HOME/k8s-o11y-workshop /home/admin
-   sudo chown -R admin:admin /home/admin
+   sudo chown -R admin:admin /home/admin/k8s-o11y-workshop
+   sudo chmod -R ogu+rw /home/admin/k8s-o11y-workshop
    sudo su - admin
 fi
