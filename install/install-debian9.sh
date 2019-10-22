@@ -20,12 +20,15 @@ sudo apt-cache policy docker-ce
 sudo apt-get -y install docker-ce
 sudo systemctl start docker
 
-#sudo minikube start --kubernetes-version=1.16.0 --vm-driver=none
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+ME=$(whoami)
 
-sudo gpasswd -a $USER docker
-newgrp - docker
-
-cd ~/k8-o11y-workshop
+# Make sure it is running as admin user
+if [ $ME != "admin" ]
+then
+   echo not admin
+   sudo deluser admin
+   sudo adduser --home /home/admin --disabled-password --disabled-login --quiet --gecos "" admin
+   sudo usermod -aG sudo admin
+   sudo gpasswd -a admin docker
+   sudo su - admin
+fi
