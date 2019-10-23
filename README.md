@@ -3,7 +3,7 @@
 ## Prepare cloud VM
 ```bash
 # Install on cloud Debian9 machines (2 cores 8GB RAM) - Strigo, GCP, etc
-sudo apt install git -y
+sudo apt install git tmux -y
 
 git clone https://github.com/michaelhyatt/k8s-o11y-workshop.git
 cd k8s-o11y-workshop
