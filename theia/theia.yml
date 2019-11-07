@@ -19,7 +19,7 @@ spec:
         runAsUser: 1000
       containers:
       - name: theia
-        image: theiaide/theia:latest
+        image: theiaide/theia:0.11.0
         ports:
         - containerPort: 3000
         volumeMounts:

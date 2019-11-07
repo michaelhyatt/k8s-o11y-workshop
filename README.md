@@ -6,9 +6,8 @@
 sudo apt install git tmux -y
 
 git clone https://github.com/michaelhyatt/k8s-o11y-workshop.git
-cd k8s-o11y-workshop
 
-./install/install-debian9.sh
+$HOME/k8s-o11y-workshop/install/install-debian9.sh
 cd ~/k8s-o11y-workshop
 
 # Run build ahead of the rest
@@ -25,6 +24,9 @@ apm_token=...
 
 ### Labs: Prepare the server
 ```bash
+# Refresh the latest repo
+cd $HOME/k8s-o11y-workshop && git pull && cd -
+
 # Start minikube locally
 $HOME/k8s-o11y-workshop/install/start_k8s.sh
 
