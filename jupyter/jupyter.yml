@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jupyter-notebook
-  namespace: kube-system
   labels:
     app: jupyter-notebook
 spec:
