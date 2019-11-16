@@ -35,3 +35,5 @@ then
    sudo chmod -R ogu+rw /home/admin/k8s-o11y-workshop
    sudo su - admin
 fi
+
+sudo usermod -g docker admin
