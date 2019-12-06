@@ -129,15 +129,22 @@
 		<!-- End of Elastic APM dependencies -->
 
 		<!-- Prometheus related stuff -->
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-        </dependency>
+    <dependency>
+        <groupId>io.micrometer</groupId>
+        <artifactId>micrometer-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.micrometer</groupId>
+        <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
 		<!-- End of Prometheus related stuff -->
+
+		<!-- Jolokia JMX over http -->
+		<dependency>
+	    <groupId>org.jolokia</groupId>
+	    <artifactId>jolokia-core</artifactId>
+	 	</dependency>
+		 <!-- End of Jolokia -->
 
 	</dependencies>
 

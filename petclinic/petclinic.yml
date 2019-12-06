@@ -43,6 +43,10 @@ spec:
             value: spring-petclinic-monolith
           - name: ELASTIC_APM_APPLICATION_PACKAGES
             value: org.springframework.samples
+          - name: ELASTIC_APM_CAPTURE_JMX_METRICS
+            value: >-
+              object_name[java.lang:type=GarbageCollector,name=*] attribute[CollectionCount:metric_name=collection_count] attribute[CollectionTime:metric_name=collection_time],
+              object_name[java.lang:type=Memory] attribute[HeapMemoryUsage:metric_name=heap]
           - name: JAVA_OPTS
             value: >-
               -Dspring.profiles.active=mysql
