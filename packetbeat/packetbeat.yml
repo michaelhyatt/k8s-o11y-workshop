@@ -82,7 +82,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: packetbeat
-        image: docker.elastic.co/beats/packetbeat:7.4.2
+        image: docker.elastic.co/beats/packetbeat:7.5.0
         args: [
           "-c", "/etc/packetbeat.yml",
           "-e",

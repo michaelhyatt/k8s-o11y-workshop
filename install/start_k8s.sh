@@ -12,3 +12,6 @@ kubectl create -f $HOME/k8s-o11y-workshop/theia/theia.yml
 
 # to install aliases
 # source $HOME/k8s-o11y-workshop/install/aliases.sh
+
+# minikube docker env setup
+# eval $(minikube docker-env)

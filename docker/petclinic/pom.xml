@@ -29,7 +29,7 @@
 
 		<jacoco.version>0.8.2</jacoco.version>
 
-		<elastic-apm.version>1.10.0</elastic-apm.version>
+		<elastic-apm.version>1.12.0</elastic-apm.version>
 	</properties>
 
 	<dependencies>
