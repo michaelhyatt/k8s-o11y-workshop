@@ -22,22 +22,6 @@ data:
        - type: kubernetes
          host: ${NODE_NAME}
          hints.enabled: true
-         # Fix for https://github.com/elastic/beats/issues/13958
-         # include_annotations: ["prometheus.io/scrape", "prometheus.io/port", "prometheus.io/path"]
-         # annotations.dedot: true
-         templates:
-           - condition.equals:
-              kubernetes.annotations.prometheus.io/scrape: "true"
-             config:
-              - module: prometheus
-                metricsets: ["collector"]
-                hosts: "${data.host}:${data.kubernetes.annotations.prometheus.io/port}"
-                metrics_path: "${data.kubernetes.annotations.prometheus.io/path}"
-                period: 1m
-
-         # To be removed in 7.5.x
-
-    # logging.level: debug
 
     processors:
       - add_cloud_metadata:

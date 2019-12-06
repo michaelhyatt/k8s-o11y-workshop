@@ -14,18 +14,13 @@ spec:
       labels:
         app: petclinic
       annotations:
-        # co.elastic.metrics/module: prometheus
-        # co.elastic.metrics/hosts: '${data.host}:${data.port}'
-        # co.elastic.metrics/metrics_path: '/metrics/prometheus'
-        # co.elastic.metrics/period: 1m
+        co.elastic.metrics/module: prometheus
+        co.elastic.metrics/hosts: '${data.host}:${data.port}'
+        co.elastic.metrics/metrics_path: '/metrics/prometheus'
+        co.elastic.metrics/period: 1m
         co.elastic.logs/multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
         co.elastic.logs/multiline.negate: "true"
         co.elastic.logs/multiline.match: "after"
-        # Fix for https://github.com/elastic/beats/issues/13958
-        prometheus.io/scrape: "true"
-        prometheus.io/path: '/metrics/prometheus'
-        prometheus.io/port: "8080"
-        # To be removed in 7.5.x
     spec:
       containers:
         - name: petclinic
