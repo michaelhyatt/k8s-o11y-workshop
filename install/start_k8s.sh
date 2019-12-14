@@ -7,6 +7,7 @@ rm -rf $HOME/.kube/ $HOME/.minikube/
 sudo mv /root/.kube /root/.minikube $HOME
 sudo chown -R $ME $HOME/.kube $HOME/.minikube
 sed -i "s|root|home/$ME|g" $HOME/.kube/config
+sed -i "s|/home/admin|$HOME|g" theia/theia.yml
 
 kubectl create -f $HOME/k8s-o11y-workshop/kube-state-metrics
 
