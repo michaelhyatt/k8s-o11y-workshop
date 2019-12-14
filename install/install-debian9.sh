@@ -20,20 +20,22 @@ sudo apt-cache policy docker-ce
 sudo apt-get -y install docker-ce
 sudo systemctl start docker
 
-ME=$(whoami)
+# ME=$(whoami)
+#
+# # Make sure it is running as admin user
+# if [ $ME != "admin" ]
+# then
+#    echo not admin
+#    sudo deluser admin
+#    sudo adduser --home /home/admin --disabled-password --disabled-login --quiet --gecos "" admin
+#    sudo usermod -aG sudo admin
+#    sudo gpasswd -a admin docker
+#    sudo cp -R $HOME/k8s-o11y-workshop /home/admin
+#    sudo chown -R admin:admin /home/admin/k8s-o11y-workshop
+#    sudo chmod -R ogu+rw /home/admin/k8s-o11y-workshop
+#    sudo su - admin
+# fi
 
-# Make sure it is running as admin user
-if [ $ME != "admin" ]
-then
-   echo not admin
-   sudo deluser admin
-   sudo adduser --home /home/admin --disabled-password --disabled-login --quiet --gecos "" admin
-   sudo usermod -aG sudo admin
-   sudo gpasswd -a admin docker
-   sudo cp -R $HOME/k8s-o11y-workshop /home/admin
-   sudo chown -R admin:admin /home/admin/k8s-o11y-workshop
-   sudo chmod -R ogu+rw /home/admin/k8s-o11y-workshop
-   sudo su - admin
-fi
+sudo usermod -g docker $USER
 
-sudo usermod -g docker admin
+newgrp - docker
