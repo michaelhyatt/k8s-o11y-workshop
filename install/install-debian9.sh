@@ -20,7 +20,7 @@ sudo apt-cache policy docker-ce
 sudo apt-get -y install docker-ce
 sudo systemctl start docker
 
-# ME=$(whoami)
+ME=$(whoami)
 #
 # # Make sure it is running as admin user
 # if [ $ME != "admin" ]
@@ -36,6 +36,6 @@ sudo systemctl start docker
 #    sudo su - admin
 # fi
 
-sudo usermod -g docker $USER
+sudo usermod -g docker $ME
 
 newgrp - docker
