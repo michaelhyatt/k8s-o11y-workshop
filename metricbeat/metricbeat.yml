@@ -77,12 +77,12 @@ data:
       period: 10s
       host: ${NODE_NAME}
       hosts: ["localhost:10255"]
-    - module: kubernetes
-      metricsets:
-        - proxy
-      period: 10s
-      host: ${NODE_NAME}
-      hosts: ["localhost:10249"]
+    # - module: kubernetes
+    #   metricsets:
+    #     - proxy
+    #   period: 10s
+    #   host: ${NODE_NAME}
+    #   hosts: ["localhost:10249"]
   docker.yml: |-
     - module: docker
       metricsets:
