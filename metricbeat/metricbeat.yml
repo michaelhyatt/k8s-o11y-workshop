@@ -9,7 +9,7 @@ metadata:
 data:
   metricbeat.yml: |-
     setup.template.settings:
-      index.mapping.total_fields.limit: 5000
+      index.mapping.total_fields.limit: 10000
 
     metricbeat.config.modules:
       # Mounted `metricbeat-daemonset-modules` configmap:

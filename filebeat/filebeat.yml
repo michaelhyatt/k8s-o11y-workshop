@@ -9,7 +9,7 @@ metadata:
 data:
   filebeat.yml: |-
     setup.template.settings:
-      index.mapping.total_fields.limit: 5000
+      index.mapping.total_fields.limit: 10000
 
     filebeat.autodiscover:
      providers:
