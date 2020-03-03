@@ -10,8 +10,9 @@ git clone https://github.com/michaelhyatt/k8s-o11y-workshop.git
 $HOME/k8s-o11y-workshop/install/install-debian9.sh
 cd ~/k8s-o11y-workshop
 
-# Run build ahead of the rest
-docker build -t petclinic docker/petclinic
+kubectl create -f $HOME/k8s-o11y-workshop/kube-state-metrics
+
+# End of GKE instructions
 ```
 ## Elastic Cloud
 Create cloud cluster and record the following to be populated in `install/create_secrets.sh` script:
