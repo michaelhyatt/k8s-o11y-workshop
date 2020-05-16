@@ -6,6 +6,8 @@ WORKDIR /build
 COPY pom.xml /build
 #Download all required dependencies into one layer
 RUN mvn -B dependency:resolve dependency:resolve-plugins
+#Pull all dependencies upfront to ensure fast compile
+RUN mvn verify clean -DskipTests --fail-never
 #Copy source code
 COPY src /build/src
 # Build application
