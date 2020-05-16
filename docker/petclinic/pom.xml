@@ -30,6 +30,7 @@
 		<jacoco.version>0.8.2</jacoco.version>
 
 		<elastic-apm.version>1.16.0</elastic-apm.version>
+		<ecs-logging-java.version>0.3.0</ecs-logging-java.version>
 	</properties>
 
 	<dependencies>
@@ -127,6 +128,14 @@
 			<version>${elastic-apm.version}</version>
 		</dependency>
 		<!-- End of Elastic APM dependencies -->
+
+		<!-- Elastic Common Schema logging -->
+		<dependency>
+		    <groupId>co.elastic.logging</groupId>
+		    <artifactId>logback-ecs-encoder</artifactId>
+		    <version>${ecs-logging-java.version}</version>
+		</dependency>
+		<!-- End of Elastic Common Schema logging -->
 
 		<!-- Prometheus related stuff -->
     <dependency>

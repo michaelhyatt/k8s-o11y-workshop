@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+    <include resource="co/elastic/logging/logback/boot/ecs-file-appender.xml" />
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="co.elastic.logging.logback.EcsEncoder">
+        <serviceName>petclinic</serviceName>
+      </encoder>
+    </appender>
+    <root level="INFO">
+        <!-- <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ECS_JSON_FILE"/>
+        <appender-ref ref="FILE"/> -->
+        <appender-ref ref="console"/>
+    </root>
+</configuration>

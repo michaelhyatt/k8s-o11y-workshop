@@ -17,3 +17,7 @@ DELETE filebeat-*,metricbeat-*,packetbeat-*,apm-*-metric*,apm-*-transaction*,apm
 DELETE _template/filebeat-*
 DELETE _template/packetbeat-*
 DELETE _template/metricbeat-*
+
+DELETE _ingest/pipeline/filebeat-*
+DELETE _ingest/pipeline/metricbeat-*
+DELETE _ingest/pipeline/packetbeat-*
