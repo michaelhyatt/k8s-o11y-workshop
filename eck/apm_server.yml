@@ -5,6 +5,11 @@ metadata:
 spec:
   version: 7.7.0
   count: 1
+  config:
+    apm-server.rum.enabled: true
+    apm-server.rum.event_rate.limit: 300
+    apm-server.rum.event_rate.lru_size: 1000
+    apm-server.rum.allow_origins: ['*']
   elasticsearchRef:
     name: "quickstart"
   http:

@@ -33,16 +33,33 @@ spec:
           ports:
           - containerPort: 8080
           env:
+
+        # This section is for connecting to Elastic cluster running locally
+        #  on ECK
+          # Needs externally accessible ip address or hostname for the RUM agent to work
+          #  also requires navigating to the address and accepting invalid cert warning
           - name: ELASTIC_APM_SERVER_URLS
-            valueFrom:
-              secretKeyRef:
-                name: apm-secret
-                key: apm-url
+            value: "https://35.244.109.236:8200"
+          # Output of kubectl get secret/quickstart-apm-token -o go-template='{{index .data "secret-token" | base64decode}}'
           - name: ELASTIC_APM_SECRET_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: apm-secret
-                key: apm-token
+            value: i6Xd8c3Ui39aaw735E16hOks
+          - name: ELASTIC_APM_VERIFY_SERVER_CERT
+            value: "false"
+        # End of Elastic on ECK section
+
+        # # This section is for connecting to Elastic Cloud cluster using secrets
+        #   - name: ELASTIC_APM_SERVER_URLS
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: apm-secret
+        #         key: apm-url
+        #   - name: ELASTIC_APM_SECRET_TOKEN
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: apm-secret
+        #         key: apm-token
+        # # End of Elastic cloud section
+
           - name: ELASTIC_APM_SERVICE_NAME
             value: spring-petclinic-monolith
           - name: ELASTIC_APM_APPLICATION_PACKAGES
