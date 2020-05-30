@@ -57,3 +57,7 @@ apmserver.apm.k8s.elastic.co/quickstart created
 NAME         HEALTH   NODES   VERSION   AGE
 quickstart   green    1       7.7.0     2m58s
 ```
+### Get APM server token
+```
+kubectl get secret/quickstart-apm-token -o go-template='{{index .data "secret-token" | base64decode}}'
+```
