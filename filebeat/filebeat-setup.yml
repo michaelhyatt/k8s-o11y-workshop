@@ -13,6 +13,16 @@ data:
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
+
+    # This part is only required with ECK-based Elastic cluster
+    output.elasticsearch:
+      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      username: ${ELASTICSEARCH_USERNAME}
+      password: ${ELASTICSEARCH_PASSWORD}
+      ssl.verification_mode: none
+    setup.kibana:
+      host: ${KIBANA_HOST}
+      ssl.verification_mode: none
 ---
 apiVersion: batch/v1
 kind: Job
@@ -27,21 +37,41 @@ spec:
         image: docker.elastic.co/beats/filebeat:7.7.0
         args: [
           "-c", "/etc/filebeat.yml",
-          "--modules", "nginx,system,mysql",
+          "--modules", "nginx,system,mysql,elasticsearch,kibana",
           "-e",
           "setup"
         ]
         env:
-        - name: ELASTIC_CLOUD_ID
-          valueFrom:
-            secretKeyRef:
-              name: cloud-secret
-              key: cloud-id
-        - name: ELASTIC_CLOUD_AUTH
-          valueFrom:
-            secretKeyRef:
-              name: cloud-secret
-              key: cloud-auth
+        # This section is for connecting to Elastic cluster running through ECK
+        #  in the default namespace. Uncomment this section and comment out the
+        # init section with ELASTIC_CLOUD_ID and ELASTIC_CLOUD_AUTH variables
+        - name: KIBANA_HOST
+          value: "https://quickstart-kb-http.default.svc.cluster.local"
+        - name: ELASTICSEARCH_HOST
+          value: "https://quickstart-es-http.default.svc.cluster.local"
+        - name: ELASTICSEARCH_PORT
+          value: "9200"
+        - name: ELASTICSEARCH_USERNAME
+          value: elastic
+        - name: ELASTICSEARCH_PASSWORD
+        # Output of kubectl get secret quickstart-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
+          value: 9uA2iBa2A8Jl80xRR3L6G8o8
+        # End of ECK cluster connectivity
+
+        # # This section is for connecting to Elastic Cloud cluster using
+        # #  ELASTIC_CLOUD_ID and ELASTIC_CLOUD_AUTH defined through secrets
+        # - name: ELASTIC_CLOUD_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: cloud-secret
+        #       key: cloud-id
+        # - name: ELASTIC_CLOUD_AUTH
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: cloud-secret
+        #       key: cloud-auth
+        # # End of Elastic Cloud connectivity section
+
         resources:
           limits:
             memory: 200Mi

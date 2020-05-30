@@ -5,6 +5,22 @@ metadata:
 spec:
   version: 7.7.0
   count: 1
+  podTemplate:
+    metadata:
+      labels:
+        app: kibana
+      annotations:
+        co.elastic.logs/module: kibana
+        # co.elastic.metrics/module: kibana
+        # co.elastic.metrics/hosts: 'https://${data.host}:${data.port}'
+        # co.elastic.metrics/period: 10s
+    spec:
+      containers:
+      - name: kibana
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1
   elasticsearchRef:
     name: quickstart
   http:
