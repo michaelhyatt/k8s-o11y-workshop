@@ -40,9 +40,11 @@ spec:
           #  also requires navigating to the address and accepting invalid cert warning
           - name: ELASTIC_APM_SERVER_URLS
             value: "https://35.244.109.236:8200"
-          # Output of kubectl get secret/quickstart-apm-token -o go-template='{{index .data "secret-token" | base64decode}}'
           - name: ELASTIC_APM_SECRET_TOKEN
-            value: i6Xd8c3Ui39aaw735E16hOks
+            valueFrom:
+              secretKeyRef:
+                name: eck-secret
+                key: apm-token
           - name: ELASTIC_APM_VERIFY_SERVER_CERT
             value: "false"
         # End of Elastic on ECK section

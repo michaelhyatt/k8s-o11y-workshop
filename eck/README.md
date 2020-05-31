@@ -40,7 +40,7 @@ NAME                 TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)      
 quickstart-kb-http   LoadBalancer   10.33.66.107   35.121.12.172   5601:32401/TCP   9m46s
 ```
 
-### Get kibana password
+### Get elastic user password
 ```
 % kubectl get secret quickstart-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 ```

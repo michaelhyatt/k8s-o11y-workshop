@@ -13,15 +13,13 @@ spec:
       node.ingest: true
       node.ml: true
       node.store.allow_mmap: false
+      xpack.monitoring.collection.enabled: true
     podTemplate:
       metadata:
         labels:
           app: elasticsearch
         annotations:
           co.elastic.logs/module: elasticsearch
-          # co.elastic.metrics/module: elasticsearch
-          # co.elastic.metrics/hosts: 'https://${data.host}:${data.port}'
-          # co.elastic.metrics/period: 10s
       spec:
         containers:
         - name: elasticsearch
@@ -32,3 +30,13 @@ spec:
           env:
           - name: ES_JAVA_OPTS
             value: "-Xms1g -Xmx1g"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eck-trial-license
+  namespace: elastic-system
+  labels:
+    license.k8s.elastic.co/type: enterprise_trial
+  annotations:
+    elastic.co/eula: accepted
