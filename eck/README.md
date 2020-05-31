@@ -6,6 +6,12 @@
 ```
 
 ## Elastic cluster deployment
+### Deploy trial license
+```
+% kubectl apply -f eck_trial_license.yml
+secret/eck-trial-license created
+```
+
 ### Deploy elasticsearch
 ```
 % kubectl apply -f elasticsearch.yml
@@ -57,7 +63,15 @@ apmserver.apm.k8s.elastic.co/quickstart created
 NAME         HEALTH   NODES   VERSION   AGE
 quickstart   green    1       7.7.0     2m58s
 ```
-### Get APM server token
+
+### Get the services and their IP addresses. Needed for Kibana
 ```
-kubectl get secret/quickstart-apm-token -o go-template='{{index .data "secret-token" | base64decode}}'
+% kubectl get services
+```
+
+* Connect to Kibana by it's IP address and use the generated `elastic` password
+
+### Create secrets for subsequent deployments
+```
+% ../install/create_eck_secrets.sh
 ```
