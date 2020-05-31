@@ -19,9 +19,13 @@ data:
 
     metricbeat.autodiscover:
       providers:
+
+        # Autodiscover by hints
       - type: kubernetes
         host: ${NODE_NAME}
         hints.enabled: true
+
+        # Specifically monitor Elasticsearch without autodiscovery
       - type: kubernetes
         host: ${NODE_NAME}
         hints.enabled: false
