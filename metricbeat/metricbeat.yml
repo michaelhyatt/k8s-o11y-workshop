@@ -25,34 +25,34 @@ data:
         host: ${NODE_NAME}
         hints.enabled: true
 
-        # Specifically monitor Elasticsearch without autodiscovery
-      - type: kubernetes
-        host: ${NODE_NAME}
-        hints.enabled: false
-        templates:
-         - condition:
-             contains:
-               kubernetes.labels.app: "elasticsearch"
-           config:
-             - module: elasticsearch
-               metricsets:
-                - node
-                - node_stats
-                - index
-                - index_recovery
-                - index_summary
-                - shard
-                - ml_job
-                - ccr
-                - cluster_stats
-                - node_stats
-                - enrich
-               period: 10s
-               hosts: [ "https://localhost:9200" ]
-               username: elastic
-               password: ${ELASTIC_PASSWORD}
-               ssl.verification_mode: none
-               xpack.enabled: true
+      #   # Specifically monitor Elasticsearch without autodiscovery
+      # - type: kubernetes
+      #   host: ${NODE_NAME}
+      #   hints.enabled: false
+      #   templates:
+      #    - condition:
+      #        contains:
+      #          kubernetes.labels.app: "elasticsearch"
+      #      config:
+      #        - module: elasticsearch
+      #          metricsets:
+      #           - node
+      #           - node_stats
+      #           - index
+      #           - index_recovery
+      #           - index_summary
+      #           - shard
+      #           - ml_job
+      #           - ccr
+      #           - cluster_stats
+      #           - node_stats
+      #           - enrich
+      #          period: 10s
+      #          hosts: [ "https://localhost:9200" ]
+      #          username: elastic
+      #          password: ${ELASTIC_PASSWORD}
+      #          ssl.verification_mode: none
+      #          xpack.enabled: true
 
     processors:
       - add_cloud_metadata:
