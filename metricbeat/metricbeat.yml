@@ -25,34 +25,24 @@ data:
         host: ${NODE_NAME}
         hints.enabled: true
 
-      #   # Specifically monitor Elasticsearch without autodiscovery
-      # - type: kubernetes
-      #   host: ${NODE_NAME}
-      #   hints.enabled: false
-      #   templates:
-      #    - condition:
-      #        contains:
-      #          kubernetes.labels.app: "elasticsearch"
-      #      config:
-      #        - module: elasticsearch
-      #          metricsets:
-      #           - node
-      #           - node_stats
-      #           - index
-      #           - index_recovery
-      #           - index_summary
-      #           - shard
-      #           - ml_job
-      #           - ccr
-      #           - cluster_stats
-      #           - node_stats
-      #           - enrich
-      #          period: 10s
-      #          hosts: [ "https://localhost:9200" ]
-      #          username: elastic
-      #          password: ${ELASTIC_PASSWORD}
-      #          ssl.verification_mode: none
-      #          xpack.enabled: true
+        # Specifically monitor Elasticsearch without autodiscovery
+      - type: kubernetes
+        host: ${NODE_NAME}
+        hints.enabled: false
+        templates:
+         - condition:
+             contains:
+               kubernetes.labels.app: "elasticsearch"
+           config:
+             - module: elasticsearch
+               metricsets: ["node", "node_stats", "index", "index_recovery", "index_summary", "shard", "ml_job", "ccr", "cluster_stats", "node_stats", "enrich"]
+               period: 10s
+               hosts: [ "https://localhost:9200" ]
+               protocol: "https"
+               username: "elastic"
+               password: "${ELASTIC_PASSWORD}"
+               ssl.verification_mode: none
+               xpack.enabled: true
 
     processors:
       - add_cloud_metadata:
@@ -68,9 +58,6 @@ data:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
-      ssl.verification_mode: none
-    setup.kibana:
-      host: ${KIBANA_HOST}
       ssl.verification_mode: none
 ---
 apiVersion: v1
@@ -175,8 +162,6 @@ spec:
         # This section is for connecting to Elastic cluster running through ECK
         #  in the default namespace. Uncomment this section and comment out the
         # init section with ELASTIC_CLOUD_ID and ELASTIC_CLOUD_AUTH variables
-        - name: KIBANA_HOST
-          value: "https://quickstart-kb-http.default.svc.cluster.local"
         - name: ELASTICSEARCH_HOST
           value: "https://quickstart-es-http.default.svc.cluster.local"
         - name: ELASTICSEARCH_PORT
@@ -282,9 +267,6 @@ data:
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
       ssl.verification_mode: none
-    setup.kibana:
-      host: ${KIBANA_HOST}
-      ssl.verification_mode: none
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -341,8 +323,6 @@ spec:
         # This section is for connecting to Elastic cluster running through ECK
         #  in the default namespace. Uncomment this section and comment out the
         # init section with ELASTIC_CLOUD_ID and ELASTIC_CLOUD_AUTH variables
-        - name: KIBANA_HOST
-          value: "https://quickstart-kb-http.default.svc.cluster.local"
         - name: ELASTICSEARCH_HOST
           value: "https://quickstart-es-http.default.svc.cluster.local"
         - name: ELASTICSEARCH_PORT
