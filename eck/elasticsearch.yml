@@ -13,7 +13,7 @@ spec:
       node.ingest: true
       node.ml: true
       node.store.allow_mmap: false
-      xpack.monitoring.collection.enabled: true
+      xpack.monitoring.collection.enabled: false
       # Enabling trial license
       xpack.license.self_generated.type: trial
     podTemplate:
@@ -32,3 +32,7 @@ spec:
           env:
           - name: ES_JAVA_OPTS
             value: "-Xms1g -Xmx1g"
+  # http:
+  #   service:
+  #     spec:
+  #       type: LoadBalancer
