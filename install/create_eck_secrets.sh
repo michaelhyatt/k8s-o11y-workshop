@@ -9,5 +9,11 @@ ELASTIC_PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o=jsonpath='{.
 
 APM_TOKEN=$(kubectl get secret/quickstart-apm-token -o go-template='{{index .data "secret-token" | base64decode}}')
 
-kubectl create secret generic eck-secret --namespace=kube-system --from-literal=elastic-password=${ELASTIC_PASSWORD} --from-literal=apm-token=${APM_TOKEN}
-kubectl create secret generic eck-secret --from-literal=elastic-password=${ELASTIC_PASSWORD} --from-literal=apm-token=${APM_TOKEN}
+APM_IP_ADDRESS=$(kubectl get services quickstart-apm-http -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+APM_PORT=$(kubectl get services quickstart-apm-http -o=jsonpath='{.spec.ports[0].port}')
+
+APM_URL="https://${APM_IP_ADDRESS}:${APM_PORT}"
+
+kubectl create secret generic eck-secret --namespace=kube-system --from-literal=elastic-password=${ELASTIC_PASSWORD}
+kubectl create secret generic eck-secret --from-literal=elastic-password=${ELASTIC_PASSWORD} --from-literal=apm-token=${APM_TOKEN} --from-literal=apm-url=${APM_URL}

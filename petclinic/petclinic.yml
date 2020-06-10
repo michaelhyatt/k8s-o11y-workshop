@@ -39,7 +39,10 @@ spec:
           # Needs externally accessible ip address or hostname for the RUM agent to work
           #  also requires navigating to the address and accepting invalid cert warning
           - name: ELASTIC_APM_SERVER_URLS
-            value: "https://35.244.109.236:8200"
+            valueFrom:          
+              secretKeyRef:
+                name: eck-secret
+                key: apm-url
           - name: ELASTIC_APM_SECRET_TOKEN
             valueFrom:
               secretKeyRef:
