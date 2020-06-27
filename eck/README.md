@@ -22,7 +22,7 @@ elasticsearch.elasticsearch.k8s.elastic.co/quickstart created
 ```
 % kubectl get elasticsearch
 NAME         HEALTH   NODES   VERSION   PHASE   AGE
-quickstart   green    3       7.7.0     Ready   4m31s
+quickstart   green    3       7.8.0     Ready   4m31s
 
 % kubectl get service quickstart-es-http
 NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
@@ -39,7 +39,7 @@ kibana.kibana.k8s.elastic.co/quickstart created
 ```
 % kubectl get kibana
 NAME         HEALTH   NODES   VERSION   AGE
-quickstart   green    1       7.7.0     2m18s
+quickstart   green    1       7.8.0     2m18s
 
 % kubectl get service quickstart-kb-http
 NAME                 TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)          AGE
@@ -61,7 +61,7 @@ apmserver.apm.k8s.elastic.co/quickstart created
 ```
 % kubectl get apm
 NAME         HEALTH   NODES   VERSION   AGE
-quickstart   green    1       7.7.0     2m58s
+quickstart   green    1       7.8.0     2m58s
 ```
 
 ### Get the services and their IP addresses. Needed for Kibana
