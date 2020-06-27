@@ -1,5 +1,10 @@
 #!/bin/sh -xvf
 
+# Delete old secrets
+kubectl delete secret cloud-secret
+kubectl delete secret cloud-secret --namespace=kube-system
+kubectl delete secret apm-secret
+
 # Here go the values
 cloud_id=...
 cloud_auth=...
