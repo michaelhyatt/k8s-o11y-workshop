@@ -3,17 +3,18 @@ kind: ApmServer
 metadata:
   name: quickstart
 spec:
-  version: 7.7.0
+  version: 7.8.0
   count: 1
   config:
+    apm-server.logging.level: info
     apm-server.rum.enabled: true
     apm-server.rum.event_rate.limit: 300
     apm-server.rum.event_rate.lru_size: 1000
     apm-server.rum.allow_origins: ['*']
     apm-server.jaeger.http.enabled: true
-    # apm-server.jaeger.grpc.enabled: true
+    apm-server.jaeger.grpc.enabled: true
     apm-server.jaeger.http.host: 0.0.0.0:14268
-    # apm-server.jaeger.grpc.host: 0.0.0.0:14250
+    apm-server.jaeger.grpc.host: 0.0.0.0:14250
   elasticsearchRef:
     name: "quickstart"
   http:
