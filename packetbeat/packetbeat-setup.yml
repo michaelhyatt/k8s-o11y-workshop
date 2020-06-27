@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: packetbeat-init
-        image: docker.elastic.co/beats/packetbeat:7.7.0
+        image: docker.elastic.co/beats/packetbeat:7.8.0
         args: [
           "-c", "/etc/packetbeat.yml",
           "-e",

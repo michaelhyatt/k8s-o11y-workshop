@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: petclinic
-          image: docker.io/michaelhyatt/elastic-k8s-o11y-workshop-petclinic:1.16.2
+          image: docker.io/michaelhyatt/elastic-k8s-o11y-workshop-petclinic:1.17.0
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
