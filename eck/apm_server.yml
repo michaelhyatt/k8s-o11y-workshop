@@ -6,7 +6,6 @@ spec:
   version: 7.8.0
   count: 1
   config:
-    apm-server.logging.level: info
     apm-server.rum.enabled: true
     apm-server.rum.event_rate.limit: 300
     apm-server.rum.event_rate.lru_size: 1000
@@ -28,6 +27,16 @@ spec:
           - name: http
             port: 14268
             targetPort: 14268
-          - name: grpc
-            port: 14250
-            targetPort: 14250
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-apm-service
+spec:
+  selector:
+    apm.k8s.elastic.co/name: quickstart
+  clusterIP: None
+  ports:
+    - protocol: TCP
+      port: 14250
+      targetPort: 14250
