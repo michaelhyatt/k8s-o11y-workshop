@@ -1,0 +1,30 @@
+service:
+  name: logstash-svc
+  annotations:
+  ports:
+    - name: beats-input-ports
+      protocol: TCP
+      port: 5044
+      targetPort: 5044
+
+podAnnotations:
+  co.elastic.logs/module: logstash
+
+extraEnvs:
+  - name: ELASTIC_CLOUD_ID
+    valueFrom:
+      secretKeyRef:
+        name: cloud-secret
+        key: cloud-id
+  - name: ELASTIC_CLOUD_AUTH
+    valueFrom:
+      secretKeyRef:
+        name: cloud-secret
+        key: cloud-auth
+
+logstashConfig:
+  logstash.yml: |
+    http.host: 0.0.0.0
+    xpack.monitoring.enabled: true
+    xpack.monitoring.elasticsearch.cloud_id: ${ELASTIC_CLOUD_ID}
+    xpack.monitoring.elasticsearch.cloud_auth: ${ELASTIC_CLOUD_AUTH}
