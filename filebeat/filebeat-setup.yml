@@ -27,7 +27,7 @@ spec:
         image: docker.elastic.co/beats/filebeat:7.8.0
         args: [
           "-c", "/etc/filebeat.yml",
-          "--modules", "nginx,system,mysql",
+          "--modules", "logstash,nginx,system,mysql",
           "-e",
           "setup"
         ]
