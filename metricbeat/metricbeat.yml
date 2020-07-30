@@ -29,8 +29,8 @@ data:
       - add_kubernetes_metadata:
       - add_docker_metadata:
 
-    cloud.id: ${ELASTIC_CLOUD_ID}
-    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+    output.logstash:
+      hosts: ["beats-proxy-logstash.default.svc.cluster.local:5044"]
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -130,16 +130,6 @@ spec:
           # "-d", "*",
         ]
         env:
-        - name: ELASTIC_CLOUD_ID
-          valueFrom:
-            secretKeyRef:
-              name: cloud-secret
-              key: cloud-id
-        - name: ELASTIC_CLOUD_AUTH
-          valueFrom:
-            secretKeyRef:
-              name: cloud-secret
-              key: cloud-auth
         - name: NODE_NAME
           valueFrom:
             fieldRef:
@@ -209,8 +199,8 @@ data:
     processors:
       - add_cloud_metadata:
 
-    cloud.id: ${ELASTIC_CLOUD_ID}
-    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+    output.logstash:
+      hosts: ["beats-proxy-logstash.default.svc.cluster.local:5044"]
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -263,16 +253,6 @@ spec:
           "-e",
         ]
         env:
-        - name: ELASTIC_CLOUD_ID
-          valueFrom:
-            secretKeyRef:
-              name: cloud-secret
-              key: cloud-id
-        - name: ELASTIC_CLOUD_AUTH
-          valueFrom:
-            secretKeyRef:
-              name: cloud-secret
-              key: cloud-auth
         - name: NODE_NAME
           valueFrom:
             fieldRef:

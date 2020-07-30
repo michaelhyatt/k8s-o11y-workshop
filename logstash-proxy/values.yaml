@@ -1,5 +1,14 @@
+# Install or Upgrade
+# helm install beats-proxy elastic/logstash -f values.yaml
+#  or
+# helm upgrade beats-proxy elastic/logstash -f values.yaml
+
+# Number of service replicas
+replicas: 3
+
+# Service to connect beats to
 service:
-  name: logstash-svc
+  name: logstash-proxy-svc
   annotations:
   ports:
     - name: beats-input-ports
@@ -7,9 +16,11 @@ service:
       port: 5044
       targetPort: 5044
 
+# Annotations for filebeat autodiscovery to apply logstash module to pod logs
 podAnnotations:
   co.elastic.logs/module: logstash
 
+# Extra env variables from secrets to connect to ESS cluster
 extraEnvs:
   - name: ELASTIC_CLOUD_ID
     valueFrom:
@@ -22,9 +33,32 @@ extraEnvs:
         name: cloud-secret
         key: cloud-auth
 
+# Logstash config files
 logstashConfig:
   logstash.yml: |
+    # Listener on all nics
     http.host: 0.0.0.0
+
+    # Turn on collector push monitoring
     xpack.monitoring.enabled: true
     xpack.monitoring.elasticsearch.cloud_id: ${ELASTIC_CLOUD_ID}
     xpack.monitoring.elasticsearch.cloud_auth: ${ELASTIC_CLOUD_AUTH}
+
+# Logstash pipeline
+logstashPipeline:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+    }
+
+    output {
+      elasticsearch {
+        cloud_auth => "${ELASTIC_CLOUD_AUTH}"
+        cloud_id => "${ELASTIC_CLOUD_ID}"
+        ilm_enabled => "true"
+        manage_template => "false"
+        ilm_policy => "metricbeat"
+      }
+    }
