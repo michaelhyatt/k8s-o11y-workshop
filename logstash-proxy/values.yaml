@@ -32,6 +32,16 @@ extraEnvs:
       secretKeyRef:
         name: cloud-secret
         key: cloud-auth
+  - name: LOGGING_ELASTIC_CLOUD_ID
+    valueFrom:
+      secretKeyRef:
+        name: logging-cloud-secret
+        key: cloud-id
+  - name: LOGGING_ELASTIC_CLOUD_AUTH
+    valueFrom:
+      secretKeyRef:
+        name: logging-cloud-secret
+        key: cloud-auth
 
 # Logstash config files
 logstashConfig:
@@ -41,8 +51,8 @@ logstashConfig:
 
     # Turn on collector push monitoring
     xpack.monitoring.enabled: true
-    xpack.monitoring.elasticsearch.cloud_id: ${ELASTIC_CLOUD_ID}
-    xpack.monitoring.elasticsearch.cloud_auth: ${ELASTIC_CLOUD_AUTH}
+    xpack.monitoring.elasticsearch.cloud_id: "${LOGGING_ELASTIC_CLOUD_ID}"
+    xpack.monitoring.elasticsearch.cloud_auth: "${LOGGING_ELASTIC_CLOUD_AUTH}"
 
 # Logstash pipeline
 logstashPipeline:
@@ -57,8 +67,9 @@ logstashPipeline:
       elasticsearch {
         cloud_auth => "${ELASTIC_CLOUD_AUTH}"
         cloud_id => "${ELASTIC_CLOUD_ID}"
-        ilm_enabled => "true"
         manage_template => "false"
+        ilm_enabled => "true"
         ilm_policy => "metricbeat"
+        ilm_rollover_alias => "metricbeat-7.8.0"
       }
     }
