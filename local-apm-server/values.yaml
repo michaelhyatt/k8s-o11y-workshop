@@ -1,0 +1,18 @@
+
+# Number of replicas
+replicas: 3
+
+# Pod annotations for the logs to be picked up
+podAnnotations:
+  co.elastic.logs/module: apm-server
+
+# APM server config
+apmConfig:
+    apm-server.yml: |
+      apm-server:
+        host: "0.0.0.0:8200"
+
+        queue: {}
+
+        output.logstash:
+          hosts: ["beats-proxy-logstash:5044"]

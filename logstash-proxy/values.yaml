@@ -4,17 +4,31 @@
 # helm upgrade beats-proxy elastic/logstash -f values.yaml
 
 # Number of service replicas
-replicas: 3
+replicas: 1
+
+# Logstash JMV options
+logstashJavaOpts: "-Xmx512m -Xms512m"
+
+# Enable persistent volumes
+persistence:
+  enabled: true
+
+# Persistent Queue volumes, make sure it matches what Logstash is allowed to write
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 1024Mi
 
 # Service to connect beats to
 service:
   name: logstash-proxy-svc
   annotations:
   ports:
-    - name: beats-input-ports
-      protocol: TCP
-      port: 5044
-      targetPort: 5044
+  - name: beats-input-ports
+    protocol: TCP
+    port: 5044
+    targetPort: 5044
 
 # Annotations for filebeat autodiscovery to apply logstash module to pod logs
 podAnnotations:
@@ -54,6 +68,36 @@ logstashConfig:
     xpack.monitoring.elasticsearch.cloud_id: "${LOGGING_ELASTIC_CLOUD_ID}"
     xpack.monitoring.elasticsearch.cloud_auth: "${LOGGING_ELASTIC_CLOUD_AUTH}"
 
+
+    # Persistent queue settings
+
+    # Turn on to write durably to disk, i.e. fsync every message
+    # otherwise it fsyncs every 1024 messages by default and risk a loss of data
+    # if the pod crashes
+    queue.checkpoint.writes: 1
+
+    # Specify persisted to enable persistent queues. By default, persistent
+    # queues are disabled (default: queue.type: memory).
+    queue.type: persisted
+
+    # The maximum size of a queue page in bytes. The queue data consists of append-only files called "pages".
+    # The default size is 64mb. Changing this value is unlikely to have performance benefits.
+    # queue.page_capacity: 0
+
+    # Specify true if you want Logstash to wait until the persistent queue is drained before shutting down.
+    # The amount of time it takes to drain the queue depends on the number of events that have accumulated in the queue.
+    # Therefore, you should avoid using this setting unless the queue, even when full, is relatively small and can be drained quickly.
+    # queue.drain: true
+
+    # The maximum number of events that are allowed in the queue. The default is 0 (unlimited).
+    # queue.max_events: 0
+
+    # The total capacity of the queue in number of bytes. The default is 1024mb (1gb).
+    # Make sure the capacity of your disk drive is greater than the value you specify here.
+    # Make sure the queue size is less or equal to the persistent volume size.
+    queue.max_bytes: 1gb
+
+
 # Logstash pipeline
 logstashPipeline:
   logstash.conf: |
@@ -64,12 +108,22 @@ logstashPipeline:
     }
 
     output {
-      elasticsearch {
-        cloud_auth => "${ELASTIC_CLOUD_AUTH}"
-        cloud_id => "${ELASTIC_CLOUD_ID}"
-        manage_template => "false"
-        ilm_enabled => "true"
-        ilm_policy => "metricbeat"
-        ilm_rollover_alias => "metricbeat-7.8.0"
+      if [@metadata][beat] == "apm" {
+        elasticsearch {
+          cloud_auth => "${ELASTIC_CLOUD_AUTH}"
+          cloud_id => "${ELASTIC_CLOUD_ID}"
+          manage_template => "false"
+          # ilm_enabled => "true"
+          # ilm_policy => "metricbeat"
+          # ilm_rollover_alias => "metricbeat-7.8.0"
+          index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{[processor][event]}"
+        }
+      } else {
+          elasticsearch {
+            cloud_auth => "${ELASTIC_CLOUD_AUTH}"
+            cloud_id => "${ELASTIC_CLOUD_ID}"
+            manage_template => "false"
+            index => "%{[@metadata][beat]}-%{[@metadata][version]}}"
+        }
       }
     }

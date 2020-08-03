@@ -201,6 +201,8 @@ data:
 
     output.logstash:
       hosts: ["beats-proxy-logstash.default.svc.cluster.local:5044"]
+      loadbalance: true
+
 ---
 apiVersion: v1
 kind: ConfigMap
