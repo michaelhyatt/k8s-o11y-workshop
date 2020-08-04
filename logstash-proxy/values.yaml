@@ -18,7 +18,7 @@ volumeClaimTemplate:
   accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
-      storage: 1024Mi
+      storage: 1.2Gi
 
 # Service to connect beats to
 service:
@@ -87,7 +87,7 @@ logstashConfig:
     # Specify true if you want Logstash to wait until the persistent queue is drained before shutting down.
     # The amount of time it takes to drain the queue depends on the number of events that have accumulated in the queue.
     # Therefore, you should avoid using this setting unless the queue, even when full, is relatively small and can be drained quickly.
-    # queue.drain: true
+    queue.drain: true
 
     # The maximum number of events that are allowed in the queue. The default is 0 (unlimited).
     # queue.max_events: 0
@@ -123,7 +123,7 @@ logstashPipeline:
             cloud_auth => "${ELASTIC_CLOUD_AUTH}"
             cloud_id => "${ELASTIC_CLOUD_ID}"
             manage_template => "false"
-            index => "%{[@metadata][beat]}-%{[@metadata][version]}}"
+            index => "%{[@metadata][beat]}-%{[@metadata][version]}"
         }
       }
     }

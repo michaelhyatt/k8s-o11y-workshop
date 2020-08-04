@@ -9,10 +9,17 @@ podAnnotations:
 # APM server config
 apmConfig:
     apm-server.yml: |
+      apm-server.rum.enabled: true
+      apm-server.rum.event_rate.limit: 300
+      apm-server.rum.event_rate.lru_size: 1000
+      apm-server.rum.allow_origins: ['*']
+      apm-server.jaeger.http.enabled: true
+      apm-server.jaeger.grpc.enabled: true
+      apm-server.jaeger.http.host: 0.0.0.0:14268
+      apm-server.jaeger.grpc.host: 0.0.0.0:14250
+
       apm-server:
         host: "0.0.0.0:8200"
 
-        queue: {}
-
-        output.logstash:
-          hosts: ["beats-proxy-logstash:5044"]
+      output.logstash:
+        hosts: ["beats-proxy-logstash:5044"]

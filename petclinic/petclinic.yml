@@ -34,15 +34,7 @@ spec:
           - containerPort: 8080
           env:
           - name: ELASTIC_APM_SERVER_URLS
-            valueFrom:
-              secretKeyRef:
-                name: apm-secret
-                key: apm-url
-          - name: ELASTIC_APM_SECRET_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: apm-secret
-                key: apm-token
+            value: http://local-apm-server:8200
           - name: ELASTIC_APM_SERVICE_NAME
             value: spring-petclinic-monolith
           - name: ELASTIC_APM_APPLICATION_PACKAGES
