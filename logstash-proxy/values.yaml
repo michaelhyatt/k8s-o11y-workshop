@@ -60,7 +60,7 @@ extraEnvs:
 # Logstash config files
 logstashConfig:
   logstash.yml: |
-    # Listener on all nics
+    # Listener on all interfaces
     http.host: 0.0.0.0
 
     # Turn on collector push monitoring
@@ -109,16 +109,17 @@ logstashPipeline:
 
     output {
       if [@metadata][beat] == "apm" {
+
+        # APM event indexing
         elasticsearch {
           cloud_auth => "${ELASTIC_CLOUD_AUTH}"
           cloud_id => "${ELASTIC_CLOUD_ID}"
           manage_template => "false"
-          # ilm_enabled => "true"
-          # ilm_policy => "metricbeat"
-          # ilm_rollover_alias => "metricbeat-7.8.0"
           index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{[processor][event]}"
         }
       } else {
+
+          # Beats event indexing
           elasticsearch {
             cloud_auth => "${ELASTIC_CLOUD_AUTH}"
             cloud_id => "${ELASTIC_CLOUD_ID}"
