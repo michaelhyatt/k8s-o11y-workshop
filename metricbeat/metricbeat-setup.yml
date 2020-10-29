@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: metricbeat-init
-        image: docker.elastic.co/beats/metricbeat:7.9.1
+        image: docker.elastic.co/beats/metricbeat:7.9.3
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
