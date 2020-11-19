@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heartbeat-synthetics
+  labels:
+    app: heartbeat-synthetics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heartbeat-synthetics
+  template:
+    metadata:
+      labels:
+        app: heartbeat-synthetics
+    spec:
+      containers:
+      - name: heartbeat-synthetics
+        image: docker.elastic.co/experimental/synthetics:7.10.0-synthetics
+        args: [
+          "-c", "/usr/share/heartbeat/heartbeat.yml",
+          "-e"
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-id
+        - name: ELASTIC_CLOUD_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: cloud-secret
+              key: cloud-auth
+        volumeMounts:
+        - name: defaultconf
+          mountPath: /usr/share/heartbeat/heartbeat.yml
+          readOnly: true
+          subPath: heartbeat.yml
+      volumes:
+      - name: defaultconf
+        configMap:
+          name: heartbeat-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: heartbeat-config
+  labels:
+    k8s-app: heartbeat-synthetics
+data:
+  heartbeat.yml: |-
+    seccomp.enabled: false
+    heartbeat.config.monitors:
+
+    processors:
+
+    heartbeat.monitors:
+    - type: browser
+      id: my-monitor
+      name: My Monitor
+      schedule: "@every 1m"
+      script: |-
+        
+        step("load homepage", async () => {
+            await page.goto('http://petclinic-nginx-service/');
+        });
+        step("click on find owners", async () => {
+            await page.click('#main-navbar > ul > li:nth-child(3) > a');
+        });
+        step("click on find owners button", async () => {
+            await page.click('#search-owner-form > div:nth-child(2) > div > button');
+        });
+        step("click on Eduardo Rodriguez", async () => {
+            await page.click('#vets > tbody > tr:nth-child(3) > td:nth-child(1) > a');
+        });
+        step("click on edit owner button", async () => {
+            await page.click('body > div.container-fluid > div > a:nth-child(3)');
+        });
+
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
