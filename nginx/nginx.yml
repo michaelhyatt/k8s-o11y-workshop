@@ -18,8 +18,10 @@ spec:
         co.elastic.logs/module: nginx
         co.elastic.logs/fileset.stdout: access
         co.elastic.logs/fileset.stderr: error
+
         co.elastic.metrics/module: nginx
         co.elastic.metrics/hosts: '${data.host}:${data.port}'
+
     spec:
       containers:
       - name: nginx
@@ -82,6 +84,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: petclinic-nginx-service
+  annotations:
+    co.elastic.monitor/name: nginx-tcp-svc
+    co.elastic.monitor/type: http
+    co.elastic.monitor/hosts: petclinic-nginx-service.default.svc.cluster.local:80/
+    co.elastic.monitor/schedule: "@every 5s"
 spec:
   selector:
     app: nginx

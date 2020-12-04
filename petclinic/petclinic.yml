@@ -18,10 +18,12 @@ spec:
         co.elastic.metrics/hosts: '${data.host}:${data.port}'
         co.elastic.metrics/metrics_path: '/metrics/prometheus'
         co.elastic.metrics/period: 1m
+
         # Commented out because of ECS logging below
         # co.elastic.logs/multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
         # co.elastic.logs/multiline.negate: "true"
         # co.elastic.logs/multiline.match: "after"
+
         co.elastic.logs/type: "log"
         co.elastic.logs/json.keys_under_root: "true"
         co.elastic.logs/json.overwrite_keys: "true"
@@ -67,6 +69,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: petclinic-service
+  annotations:
+    co.elastic.monitor/name: petclinic-http-svc
+    co.elastic.monitor/type: http
+    co.elastic.monitor/hosts: petclinic-service.default.svc.cluster.local:8080/
+    co.elastic.monitor/schedule: "@every 5s"
 spec:
   selector:
     app: petclinic

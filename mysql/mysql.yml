@@ -2,6 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
+  annotations:
+    co.elastic.monitor/name: mysql-tcp-svc
+    co.elastic.monitor/type: tcp
+    co.elastic.monitor/hosts: mysql-service.default.svc.cluster.local:3306
+    co.elastic.monitor/schedule: "@every 5s"
 spec:
   selector:
     app: mysql
@@ -27,8 +32,10 @@ spec:
         app: mysql
       annotations:
         co.elastic.logs/module: mysql
+
         co.elastic.metrics/module: mysql
         co.elastic.metrics/hosts: 'root:petclinic@tcp(${data.host}:${data.port})/'
+
     spec:
       containers:
       - name: mysql
