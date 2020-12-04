@@ -54,15 +54,18 @@ data:
     seccomp.enabled: false
     heartbeat.config.monitors:
 
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+
     processors:
 
     heartbeat.monitors:
+
     - type: browser
-      id: my-monitor
-      name: My Monitor
-      schedule: "@every 1m"
+      id: home2edit-monitor
+      name: Home -> Edit Owner journey
+      schedule: "@every 1s"
       script: |-
-        
         step("load homepage", async () => {
             await page.goto('http://petclinic-nginx-service/');
         });
@@ -79,5 +82,41 @@ data:
             await page.click('body > div.container-fluid > div > a:nth-child(3)');
         });
 
-    cloud.id: ${ELASTIC_CLOUD_ID}
-    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+    - type: browser
+      id: home2vets-monitor
+      name: Home -> Show Vets journey
+      schedule: "@every 1s"
+      script: |-
+        step("load homepage", async () => {
+            await page.goto('http://petclinic-nginx-service/');
+        });
+        step("click on vets", async () => {
+            await page.click('#main-navbar > ul > li:nth-child(4) > a');
+        });
+
+    - type: browser
+      id: home2addpet-monitor
+      name: Home -> Add Owner journey
+      schedule: "@every 1s"
+      script: |-
+        step("load homepage", async () => {
+            await page.goto('http://petclinic-nginx-service/');
+        });
+        step("click on find owners", async () => {
+            await page.click('#main-navbar > ul > li:nth-child(3) > a');
+        });
+        step("click on add Owner button", async () => {
+            await page.click('body > div.container-fluid > div > a');
+        });
+
+    - type: browser
+      id: error-monitor
+      name: Home -> Error journey
+      schedule: "@every 6s"
+      script: |-
+        step("load homepage", async () => {
+            await page.goto('http://petclinic-nginx-service/');
+        });
+        step("click on error", async () => {
+            await page.click('#main-navbar > ul > li:nth-child(5) > a');
+        });
