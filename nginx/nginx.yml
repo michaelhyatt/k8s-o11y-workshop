@@ -85,7 +85,7 @@ kind: Service
 metadata:
   name: petclinic-nginx-service
   annotations:
-    co.elastic.monitor/name: nginx-tcp-svc
+    co.elastic.monitor/name: nginx-http-svc
     co.elastic.monitor/type: http
     co.elastic.monitor/hosts: petclinic-nginx-service.default.svc.cluster.local:80/
     co.elastic.monitor/schedule: "@every 5s"
