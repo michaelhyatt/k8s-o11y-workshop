@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: petclinic
-          image: docker.io/michaelhyatt/elastic-k8s-o11y-workshop-petclinic:1.19.1
+          image: docker.io/michaelhyatt/elastic-k8s-o11y-workshop-petclinic:1.20.0
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
@@ -41,6 +41,11 @@ spec:
               memory: "850M"
           env:
           - name: ELASTIC_APM_SERVER_URLS
+            valueFrom:
+              secretKeyRef:
+                name: apm-secret
+                key: apm-url
+          - name: ELASTIC_APM_SERVER_URLS_FOR_RUM
             valueFrom:
               secretKeyRef:
                 name: apm-secret
