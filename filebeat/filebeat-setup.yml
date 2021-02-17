@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: filebeat-init
-        image: docker.elastic.co/beats/filebeat:7.10.0
+        image: docker.elastic.co/beats/filebeat:7.11.0
         args: [
           "-c", "/etc/filebeat.yml",
           "--modules", "nginx,system,mysql",
