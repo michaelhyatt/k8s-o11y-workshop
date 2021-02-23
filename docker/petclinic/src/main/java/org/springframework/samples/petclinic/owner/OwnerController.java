@@ -162,7 +162,7 @@ class OwnerController {
 
     @ModelAttribute("apmServer")
     public String apmServer() {
-        return System.getenv("ELASTIC_APM_SERVER_URLS");
+        return System.getenv("ELASTIC_APM_SERVER_URLS_FOR_RUM");
     }
 
     private void lookingForLostOwners(){

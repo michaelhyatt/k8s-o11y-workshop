@@ -1,0 +1,19 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay-example
+spec:
+  action: delay
+  mode: one
+  selector:
+    namespaces:
+      - default
+    labelSelectors:
+      "app": "petclinic"
+  delay:
+    latency: "100ms"
+    correlation: "100"
+    jitter: "0ms"
+  duration: "30s"
+  scheduler:
+    cron: "@every 60s"
