@@ -68,18 +68,23 @@ data:
       script: |-
         step("load homepage", async () => {
             await page.goto('http://petclinic-nginx-service/');
+            await page.waitForRequest(/intake/);
         });
         step("click on find owners", async () => {
             await page.click('#main-navbar > ul > li:nth-child(3) > a');
+            await page.waitForRequest(/intake/);
         });
         step("click on find owners button", async () => {
             await page.click('#search-owner-form > div:nth-child(2) > div > button');
+            await page.waitForRequest(/intake/);
         });
         step("click on Eduardo Rodriguez", async () => {
             await page.click('#vets > tbody > tr:nth-child(3) > td:nth-child(1) > a');
+            await page.waitForRequest(/intake/);
         });
         step("click on edit owner button", async () => {
             await page.click('body > div.container-fluid > div > a:nth-child(3)');
+            await page.waitForRequest(/intake/);
         });
 
     - type: browser
@@ -89,9 +94,11 @@ data:
       script: |-
         step("load homepage", async () => {
             await page.goto('http://petclinic-nginx-service/');
+            await page.waitForRequest(/intake/);
         });
         step("click on vets", async () => {
             await page.click('#main-navbar > ul > li:nth-child(4) > a');
+            await page.waitForRequest(/intake/);
         });
 
     - type: browser
@@ -101,12 +108,15 @@ data:
       script: |-
         step("load homepage", async () => {
             await page.goto('http://petclinic-nginx-service/');
+            await page.waitForRequest(/intake/);
         });
         step("click on find owners", async () => {
             await page.click('#main-navbar > ul > li:nth-child(3) > a');
+            await page.waitForRequest(/intake/);
         });
         step("click on add Owner button", async () => {
             await page.click('body > div.container-fluid > div > a');
+            await page.waitForRequest(/intake/);
         });
 
     - type: browser
@@ -116,7 +126,9 @@ data:
       script: |-
         step("load homepage", async () => {
             await page.goto('http://petclinic-nginx-service/');
+            await page.waitForRequest(/intake/);
         });
         step("click on error", async () => {
             await page.click('#main-navbar > ul > li:nth-child(5) > a');
+            await page.waitForRequest(/intake/);
         });
