@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: heartbeat-synthetics
-        image: docker.elastic.co/experimental/synthetics:7.11.0-synthetics
+        image: docker.elastic.co/beats/heartbeat:7.12.0
         args: [
           "-c", "/usr/share/heartbeat/heartbeat.yml",
           "-e"
@@ -52,7 +52,6 @@ metadata:
 data:
   heartbeat.yml: |-
     seccomp.enabled: false
-    heartbeat.config.monitors:
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
@@ -65,70 +64,78 @@ data:
       id: home2edit-monitor
       name: Home -> Edit Owner journey
       schedule: "@every 1s"
-      script: |-
-        step("load homepage", async () => {
-            await page.goto('http://petclinic-nginx-service/');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on find owners", async () => {
-            await page.click('#main-navbar > ul > li:nth-child(3) > a');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on find owners button", async () => {
-            await page.click('#search-owner-form > div:nth-child(2) > div > button');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on Eduardo Rodriguez", async () => {
-            await page.click('#vets > tbody > tr:nth-child(3) > td:nth-child(1) > a');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on edit owner button", async () => {
-            await page.click('body > div.container-fluid > div > a:nth-child(3)');
-            await page.waitForRequest(/intake/);
-        });
+      source:
+        inline:
+          script: |-
+            step("load homepage", async () => {
+                await page.goto('http://petclinic-nginx-service/');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on find owners", async () => {
+                await page.click('#main-navbar > ul > li:nth-child(3) > a');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on find owners button", async () => {
+                await page.click('#search-owner-form > div:nth-child(2) > div > button');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on Eduardo Rodriguez", async () => {
+                await page.click('#vets > tbody > tr:nth-child(3) > td:nth-child(1) > a');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on edit owner button", async () => {
+                await page.click('body > div.container-fluid > div > a:nth-child(3)');
+                await page.waitForRequest(/intake/);
+            });
 
     - type: browser
       id: home2vets-monitor
       name: Home -> Show Vets journey
       schedule: "@every 1s"
-      script: |-
-        step("load homepage", async () => {
-            await page.goto('http://petclinic-nginx-service/');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on vets", async () => {
-            await page.click('#main-navbar > ul > li:nth-child(4) > a');
-            await page.waitForRequest(/intake/);
-        });
+      source:
+        inline:
+          script: |-
+            step("load homepage", async () => {
+                await page.goto('http://petclinic-nginx-service/');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on vets", async () => {
+                await page.click('#main-navbar > ul > li:nth-child(4) > a');
+                await page.waitForRequest(/intake/);
+            });
 
     - type: browser
       id: home2addpet-monitor
       name: Home -> Add Owner journey
       schedule: "@every 1s"
-      script: |-
-        step("load homepage", async () => {
-            await page.goto('http://petclinic-nginx-service/');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on find owners", async () => {
-            await page.click('#main-navbar > ul > li:nth-child(3) > a');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on add Owner button", async () => {
-            await page.click('body > div.container-fluid > div > a');
-            await page.waitForRequest(/intake/);
-        });
+      source:
+        inline:
+          script: |-
+            step("load homepage", async () => {
+                await page.goto('http://petclinic-nginx-service/');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on find owners", async () => {
+                await page.click('#main-navbar > ul > li:nth-child(3) > a');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on add Owner button", async () => {
+                await page.click('body > div.container-fluid > div > a');
+                await page.waitForRequest(/intake/);
+            });
 
     - type: browser
       id: error-monitor
       name: Home -> Error journey
       schedule: "@every 6s"
-      script: |-
-        step("load homepage", async () => {
-            await page.goto('http://petclinic-nginx-service/');
-            await page.waitForRequest(/intake/);
-        });
-        step("click on error", async () => {
-            await page.click('#main-navbar > ul > li:nth-child(5) > a');
-            await page.waitForRequest(/intake/);
-        });
+      source:
+        inline:
+          script: |-
+            step("load homepage", async () => {
+                await page.goto('http://petclinic-nginx-service/');
+                await page.waitForRequest(/intake/);
+            });
+            step("click on error", async () => {
+                await page.click('#main-navbar > ul > li:nth-child(5) > a');
+                await page.waitForRequest(/intake/);
+            });
