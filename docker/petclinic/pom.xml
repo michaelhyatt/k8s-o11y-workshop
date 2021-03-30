@@ -29,8 +29,8 @@
 
 		<jacoco.version>0.8.2</jacoco.version>
 
-		<elastic-apm.version>1.20.0</elastic-apm.version>
-		<ecs-logging-java.version>0.5.2</ecs-logging-java.version>
+		<elastic-apm.version>1.22.0</elastic-apm.version>
+		<ecs-logging-java.version>1.0.1</ecs-logging-java.version>
 	</properties>
 
 	<dependencies>
