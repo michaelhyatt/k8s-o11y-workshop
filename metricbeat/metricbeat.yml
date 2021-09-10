@@ -20,7 +20,7 @@ data:
     metricbeat.autodiscover:
       providers:
        - type: kubernetes
-         host: ${NODE_NAME}
+         node: ${NODE_NAME}
          hints.enabled: true
 
     processors:
@@ -93,7 +93,7 @@ data:
         - "healthcheck"
         - "info"
         # - "image"
-        - "memory"
+        # - "memory"
         - "network"
       hosts: ["unix:///var/run/docker.sock"]
       period: 10s
@@ -122,7 +122,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: metricbeat
-        image: docker.elastic.co/beats/metricbeat:7.13.0
+        image: docker.elastic.co/beats/metricbeat:7.14.1
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -257,7 +257,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: metricbeat
-        image: docker.elastic.co/beats/metricbeat:7.13.0
+        image: docker.elastic.co/beats/metricbeat:7.14.1
         args: [
           "-c", "/etc/metricbeat.yml",
           "-e",
@@ -303,7 +303,7 @@ spec:
           defaultMode: 0600
           name: metricbeat-deployment-modules
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: metricbeat
@@ -316,7 +316,7 @@ roleRef:
   name: metricbeat
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: metricbeat

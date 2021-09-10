@@ -4,7 +4,7 @@ spec:
       serviceAccountName: elastic-agent
       initContainers:
       - name: enroll-agent
-        image: docker.elastic.co/beats/elastic-agent:7.13.0
+        image: docker.elastic.co/beats/elastic-agent:7.14.1
         command: [
           "sh", "-c",
           "/usr/share/elastic-agent/elastic-agent enroll -f --kibana-url=${KIBANA_URL} --enrollment-token=${ENROLLMENT_TOKEN} ; cp -r /usr/share/elastic-agent/* /agent-config/"
@@ -25,7 +25,7 @@ spec:
               key: enrollment-token
       containers:
       - name: agent
-        image: docker.elastic.co/beats/elastic-agent:7.13.0
+        image: docker.elastic.co/beats/elastic-agent:7.14.1
         securityContext:
           runAsUser: 0
         command: [

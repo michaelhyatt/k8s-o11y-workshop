@@ -29,8 +29,9 @@
 
 		<jacoco.version>0.8.2</jacoco.version>
 
-		<elastic-apm.version>1.22.0</elastic-apm.version>
-		<ecs-logging-java.version>1.0.1</ecs-logging-java.version>
+		<elastic-apm.version>1.25.0</elastic-apm.version>
+		<ecs-logging-java.version>1.1.0</ecs-logging-java.version>
+		<version.byte-buddy>1.11.15</version.byte-buddy>
 	</properties>
 
 	<dependencies>
@@ -122,11 +123,16 @@
 			<artifactId>apm-agent-api</artifactId>
 			<version>${elastic-apm.version}</version>
 		</dependency>
-		<dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${version.byte-buddy}</version>
+        </dependency>
+		<!-- <dependency>
 			<groupId>co.elastic.apm</groupId>
 			<artifactId>elastic-apm-agent</artifactId>
 			<version>${elastic-apm.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- End of Elastic APM dependencies -->
 
 		<!-- Elastic Common Schema logging -->

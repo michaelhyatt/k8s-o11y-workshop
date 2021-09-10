@@ -8,45 +8,33 @@ metadata:
     k8s-app: filebeat
 data:
   filebeat.yml: |-
+    filebeat.inputs:
+    - type: container
+      paths:
+        - /var/log/containers/*.log
+      processors:
+        - add_kubernetes_metadata:
+            host: ${NODE_NAME}
+            matchers:
+            - logs_path:
+                logs_path: "/var/log/containers/"
+
     setup.template.settings:
       index.mapping.total_fields.limit: 10000
 
     filebeat.autodiscover:
      providers:
        - type: kubernetes
-         host: ${NODE_NAME}
+         node: ${NODE_NAME}
          hints.enabled: true
-
+         hints.default_config:
+           type: container
+           paths:
+             - /var/log/containers/*${data.kubernetes.container.id}.log
     processors:
       - add_cloud_metadata:
       - add_host_metadata:
       - add_docker_metadata:
-      - add_kubernetes_metadata:
-      - drop_event:
-          when:
-            or:
-            - contains:
-                message: "OpenAPI AggregationController: Processing item k8s_internal_local_delegation_chain"
-            - and:
-              - equals:
-                  kubernetes.container.name: "metricbeat"
-              - contains:
-                  message: "INFO"
-              - contains:
-                  message: "Non-zero metrics in the last"
-            - and:
-              - equals:
-                  kubernetes.container.name: "packetbeat"
-              - contains:
-                  message: "INFO"
-              - contains:
-                  message: "Non-zero metrics in the last"
-            - contains:
-                message: "get services heapster"
-            - contains:
-                kubernetes.container.name: "kube-addon-manager"
-            - contains:
-                kubernetes.container.name: "dashboard-metrics-scraper"
 
     cloud.id: ${ELASTIC_CLOUD_ID}
     cloud.auth: ${ELASTIC_CLOUD_AUTH}
@@ -75,7 +63,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: filebeat
-        image: docker.elastic.co/beats/filebeat:7.13.0
+        image: docker.elastic.co/beats/filebeat:7.14.1
         args: [
           "-c", "/etc/filebeat.yml",
           "-e",
@@ -97,8 +85,6 @@ spec:
               fieldPath: spec.nodeName
         securityContext:
           runAsUser: 0
-          # If using Red Hat OpenShift uncomment this:
-          # privileged: true
         resources:
           limits:
             memory: 200Mi
